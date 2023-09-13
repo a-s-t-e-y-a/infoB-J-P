@@ -28,15 +28,19 @@ model Mundal {
   adhyaksha     Int         
   upaadhyaksha  Int         
   mahamantri    Int         
-  mantri        Int        
+  mantri        Int         
   koshadhyaksha Int         
   karyakarta    karykarta[]
+  Sector        Sector[]
 }
 
 model Sector {
-  id            Int         @id @default(autoincrement())
-  name String
-
+  id    Int @id @default(autoincrement())
+  name  String
+  sanyojak  Int 
+  prabhari  Int 
+  mundal Mundal @relation(fields: [mundalId], references: [id])
+  mundalId  Int
 }
 
 model karykarta {
@@ -50,6 +54,10 @@ model karykarta {
   previousParty String? @default("None")
   mundal        Mundal  @relation(fields: [mundalId], references: [id])
   mundalId      Int
+  sector  Sector @relation(fields: [sectorId], references: [id])
+  sectorId  Int
 }
 
+// model 
 
+// name , addersss,mundal , polling booth ,sector , mobileNumber , dob ,religion ,gender ,previousParty , 
