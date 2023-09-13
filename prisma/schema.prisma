@@ -23,7 +23,7 @@ model User {
 
 //  mundal - block -> panchayat/ppoling booth [one to many with block ] - > prbhari mtlb incharge -> sankjyok coordinator  -> only one i
 model Mundal {
-  id            Int         @id @default(autoincrement())
+  id            Int            @id @default(autoincrement())
   name          String
   adhyaksha     Int
   upaadhyaksha  Int
@@ -32,16 +32,18 @@ model Mundal {
   koshadhyaksha Int
   karyakarta    karykarta[]
   Sector        Sector[]
+  poolingBooth  poolingBooth[]
 }
 
 model Sector {
-  id        Int         @id @default(autoincrement())
-  name      String
-  sanyojak  Int
-  prabhari  Int
-  mundal    Mundal      @relation(fields: [mundalId], references: [id])
-  mundalId  Int
-  karykarta karykarta[]
+  id           Int            @id @default(autoincrement())
+  name         String
+  sanyojak     Int
+  prabhari     Int
+  mundal       Mundal         @relation(fields: [mundalId], references: [id])
+  mundalId     Int
+  karykarta    karykarta[]
+  poolingBooth poolingBooth[]
 }
 
 model karykarta {
@@ -57,6 +59,16 @@ model karykarta {
   mundalId      Int
   sector        Sector  @relation(fields: [sectorId], references: [id])
   sectorId      Int
+}
+
+model poolingBooth {
+  id        Int    @id @default(autoincrement())
+  name      String
+  adhyaksha String
+  mundal    Mundal @relation(fields: [mundalId], references: [id])
+  mundalId  Int
+  sector    Sector @relation(fields: [sectorId], references: [id])
+  sectorId  Int
 }
 
 // model 
