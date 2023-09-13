@@ -34,6 +34,12 @@ model Mundal {
 }
 
 model Sector {
+  id    Int @id @default(autoincrement())
+  name  String
+  sanyojak  Int @max(1)
+  prabhari  Int @max(1)
+  mundal Mundal @relation(fields: [mundalId], references: [id])
+  mundalId  Int
 }
 
 model karykarta {
@@ -47,8 +53,10 @@ model karykarta {
   previousParty String? @default("None")
   mundal        Mundal  @relation(fields: [mundalId], references: [id])
   mundalId      Int
+  sector  Sector @relation(fields: [sectorId], references: [id])
+  sectorId  Int
 }
 
-model 
+// model 
 
-name , addersss,mundal , polling booth ,sector , mobileNumber , dob ,religion ,gender ,previousParty , 
+// name , addersss,mundal , polling booth ,sector , mobileNumber , dob ,religion ,gender ,previousParty , 
