@@ -36,25 +36,25 @@ model Mundal {
 }
 
 model Sector {
-  id           Int            @id @default(autoincrement())
-  name         String
-  sanyojak     Int
-  prabhari     Int
-  mundal       Mundal         @relation(fields: [mundalId], references: [id])
-  mundalId     Int
-  karykarta    karykarta[]
-  poolingBooth poolingBooth[]
+  id                   Int            @id @default(autoincrement())
+  name                 String
+  shaktikendraSanyojak Int
+  shaktikendraprabhari Int
+  mundal               Mundal         @relation(fields: [mundalId], references: [id])
+  mundalId             Int
+  karykarta            karykarta[]
+  poolingBooth         poolingBooth[]
 }
 
 model poolingBooth {
-  id        Int         @id @default(autoincrement())
-  name      String
+  id             Int         @id @default(autoincrement())
+  name           String
   adhyakshaBooth String
-  mundal    Mundal      @relation(fields: [mundalId], references: [id])
-  mundalId  Int
-  sector    Sector      @relation(fields: [sectorId], references: [id])
-  sectorId  Int
-  karykarta karykarta[]
+  mundal         Mundal      @relation(fields: [mundalId], references: [id])
+  mundalId       Int
+  sector         Sector      @relation(fields: [sectorId], references: [id])
+  sectorId       Int
+  karykarta      karykarta[]
 }
 
 model karykarta {
@@ -72,10 +72,10 @@ model karykarta {
   sectorId       Int
   poolingBooth   poolingBooth @relation(fields: [poolingBoothid], references: [id])
   poolingBoothid Int
-  role           Role @default(karyakarta)
+  role           Role         @default(karyakarta)
 }
 
-enum  Role {
+enum Role {
   karyakarta
   adhyaksha
   koshadhyaksha
@@ -83,7 +83,10 @@ enum  Role {
   mantri
   upaadhyaksha
   adhyakshaBooth
+  shaktikendraSanyojak
+  shaktikendraprabhari
 }
+
 // model 
 
 // name , addersss,mundal , polling booth ,sector , mobileNumber , dob ,religion ,gender ,previousParty , 
