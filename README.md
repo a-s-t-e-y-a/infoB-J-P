@@ -1,4 +1,3 @@
-# aah love with monorepo
 
 Welcome to your project! This README provides information on how to get started and perform common tasks.
 ## notes 
