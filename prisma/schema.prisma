@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int    @id @default(autoincrement())
+  email       String @unique
+  name        String
+  phoneNumber String
+  dob         String
+  mandal      String
+  village     String
+  role        String
+}
+
+//  mundal - block -> panchayat/ppoling booth [one to many with block ] - > prbhari mtlb incharge -> sankjyok coordinator  -> only one i
+model Mundal {
+  id            Int         @id @default(autoincrement())
+  name          String
+  adhyaksha     Int         @max(1)
+  upaadhyaksha  Int         @max(4)
+  mahamantri    Int         @max(2)
+  mantri        Int         @max(4)
+  koshadhyaksha Int         @max(1)
+  karyakarta    karykarta[]
+}
+
+model Sector {
+}
+
+model karykarta {
+  id            Int     @id @default(autoincrement())
+  name          String
+  address       String
+  mobileNumber  String
+  dob           String
+  religion      String
+  gender        String
+  previousParty String? @default("None")
+  mundal        Mundal  @relation(fields: [mundalId], references: [id])
+  mundalId      Int
+}
+
+model 
+
+name , addersss,mundal , polling booth ,sector , mobileNumber , dob ,religion ,gender ,previousParty , 
