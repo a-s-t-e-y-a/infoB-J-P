@@ -46,6 +46,17 @@ model Sector {
   poolingBooth poolingBooth[]
 }
 
+model poolingBooth {
+  id        Int         @id @default(autoincrement())
+  name      String
+  adhyakshaBooth String
+  mundal    Mundal      @relation(fields: [mundalId], references: [id])
+  mundalId  Int
+  sector    Sector      @relation(fields: [sectorId], references: [id])
+  sectorId  Int
+  karykarta karykarta[]
+}
+
 model karykarta {
   id             Int          @id @default(autoincrement())
   name           String
@@ -61,19 +72,18 @@ model karykarta {
   sectorId       Int
   poolingBooth   poolingBooth @relation(fields: [poolingBoothid], references: [id])
   poolingBoothid Int
+  role           Role @default(karyakarta)
 }
 
-model poolingBooth {
-  id        Int         @id @default(autoincrement())
-  name      String
-  adhyaksha String
-  mundal    Mundal      @relation(fields: [mundalId], references: [id])
-  mundalId  Int
-  sector    Sector      @relation(fields: [sectorId], references: [id])
-  sectorId  Int
-  karykarta karykarta[]
+enum  Role {
+  karyakarta
+  adhyaksha
+  koshadhyaksha
+  mahamantri
+  mantri
+  upaadhyaksha
+  adhyakshaBooth
 }
-
 // model 
 
 // name , addersss,mundal , polling booth ,sector , mobileNumber , dob ,religion ,gender ,previousParty , 
