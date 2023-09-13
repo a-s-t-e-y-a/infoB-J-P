@@ -47,28 +47,31 @@ model Sector {
 }
 
 model karykarta {
-  id            Int     @id @default(autoincrement())
-  name          String
-  address       String
-  mobileNumber  String
-  dob           String
-  religion      String
-  gender        String
-  previousParty String? @default("None")
-  mundal        Mundal  @relation(fields: [mundalId], references: [id])
-  mundalId      Int
-  sector        Sector  @relation(fields: [sectorId], references: [id])
-  sectorId      Int
+  id             Int          @id @default(autoincrement())
+  name           String
+  address        String
+  mobileNumber   String
+  dob            String
+  religion       String
+  gender         String
+  previousParty  String?      @default("None")
+  mundal         Mundal       @relation(fields: [mundalId], references: [id])
+  mundalId       Int
+  sector         Sector       @relation(fields: [sectorId], references: [id])
+  sectorId       Int
+  poolingBooth   poolingBooth @relation(fields: [poolingBoothid], references: [id])
+  poolingBoothid Int
 }
 
 model poolingBooth {
-  id        Int    @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
   name      String
   adhyaksha String
-  mundal    Mundal @relation(fields: [mundalId], references: [id])
+  mundal    Mundal      @relation(fields: [mundalId], references: [id])
   mundalId  Int
-  sector    Sector @relation(fields: [sectorId], references: [id])
+  sector    Sector      @relation(fields: [sectorId], references: [id])
   sectorId  Int
+  karykarta karykarta[]
 }
 
 // model 
