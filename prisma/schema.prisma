@@ -25,15 +25,18 @@ model User {
 model Mundal {
   id            Int         @id @default(autoincrement())
   name          String
-  adhyaksha     Int         @max(1)
-  upaadhyaksha  Int         @max(4)
-  mahamantri    Int         @max(2)
-  mantri        Int         @max(4)
-  koshadhyaksha Int         @max(1)
+  adhyaksha     Int         
+  upaadhyaksha  Int         
+  mahamantri    Int         
+  mantri        Int        
+  koshadhyaksha Int         
   karyakarta    karykarta[]
 }
 
 model Sector {
+  id            Int         @id @default(autoincrement())
+  name String
+
 }
 
 model karykarta {
@@ -49,6 +52,4 @@ model karykarta {
   mundalId      Int
 }
 
-model 
 
-name , addersss,mundal , polling booth ,sector , mobileNumber , dob ,religion ,gender ,previousParty , 
