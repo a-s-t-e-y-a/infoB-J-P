@@ -16,9 +16,8 @@ model User {
   name        String
   phoneNumber String
   dob         String
-  mandal      String
   village     String
-  role        String
+  hash    String
 }
 
 //  mundal - block -> panchayat/ppoling booth [one to many with block ] - > prbhari mtlb incharge -> sankjyok coordinator  -> only one i
