@@ -65,12 +65,12 @@ model karykarta {
   religion       String
   gender         String
   previousParty  String?      @default("None")
-  mundal         Mundal       @relation(fields: [mundalId], references: [id])
-  mundalId       Int
-  sector         Sector       @relation(fields: [sectorId], references: [id])
-  sectorId       Int
-  poolingBooth   poolingBooth @relation(fields: [poolingBoothid], references: [id])
-  poolingBoothid Int
+  mundal         Mundal?       @relation(fields: [mundalId], references: [id])
+  mundalId       Int?
+  sector         Sector?      @relation(fields: [sectorId], references: [id])
+  sectorId       Int?
+  poolingBooth   poolingBooth? @relation(fields: [poolingBoothid], references: [id])
+  poolingBoothid Int?
   role           Role         @default(karyakarta)
 }
 

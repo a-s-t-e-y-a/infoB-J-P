@@ -1,11 +1,12 @@
 import express  from "express";
 import { creatUser } from "./controller/create";
+import { loginUser } from "./auth/login";
 
-const route = express.Router()
+const auth = express.Router()
 
-route.post('/',creatUser)
-route.get('/:id')
-route.put('/:id')
-route.delete('/:id')
+auth.post('/',creatUser)
+auth.post('/login',loginUser)
+auth.put('/:id')
+auth.delete('/:id')
 
-export default route
+export default auth

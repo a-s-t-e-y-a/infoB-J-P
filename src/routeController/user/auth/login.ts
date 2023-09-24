@@ -1,20 +1,50 @@
-// import { Request, Response } from "express";
-// import { PrismaClient } from '@prisma/client';
-// const prisma = new PrismaClient();
-// export async function loginAuth(req:Request, res:Response) {
-//     const {email , password} =req.body as InputFormat
-//     try {   
-//         const findEmail = await prisma.user.findFirst({
-//             where:{
-//                 email:
-//             }
-//         })
-//     }catch(err){
+import { Request, Response } from 'express';
+import { PrismaClient } from '@prisma/client';
+import * as bcryptjs from 'bcryptjs';
+import { responseSuccess } from '../../../utlis/responseSuccess';
+import { CustomError } from '../../../utlis/throwError';
+import { errorResponse } from '../../../utlis/responseError';
+import jwt from 'jsonwebtoken'
+const prisma = new PrismaClient();
 
-//     }
-// }
+export async function loginUser(req: Request, res: Response) {
+  try {
+    const { email, password } = req.body as User;
+    
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    
+    if (!user) {
+      throw new CustomError('User not found', 404, 'Not Found');
+    }
+    
+    const passwordMatch = await bcryptjs.compare(password, user.hash);
+    
+    if (passwordMatch) {
+      // Passwords match, user is authenticated.
+      responseSuccess(res, {
+        status: 200,
+        message: 'Login successful',
+        data: user,
+      });
+      const signedInfo = jwt.sign({ user }, 'BEARER');
+      res.cookie('jwt', signedInfo, {
+        httpOnly: true,
+      });
+    } else {
+      // Passwords do not match, return an error.
+      throw new CustomError('Incorrect password', 401, 'Unauthorized');
+    }
+  } catch (err) {
+    console.log(err);
+    errorResponse(res, err);
+  }
+}
 
-// interface InputFormat {
-//     email:string,
-//     password:string
-// }
+interface User {
+  email: string;
+  password: string;
+}
