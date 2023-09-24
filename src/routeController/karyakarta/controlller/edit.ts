@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { responseSuccess } from '../../../utlis/responseSuccess';
 import { errorResponse } from '../../../utlis/responseError';
-import { CustomError } from 'src/utlis/throwError';
+// import { CustomError } from 'src/utlis/throwError';
 
 const prisma = new PrismaClient();
 export async function editKarykarta(req: Request, res: Response) {

@@ -35,3 +35,18 @@ export async function getMundalById(req: Request, res: Response) {
       errorResponse(res, err);
     }
   }
+
+  export async function getAllMundals(req: Request, res: Response) {
+    try {
+      const mundals = await prisma.mundal.findMany();
+  
+      responseSuccess(res, {
+        status: 200,
+        message: 'All Mundals retrieved successfully',
+        data: mundals,
+      });
+    } catch (err) {
+      console.error(err);
+      errorResponse(res, err);
+    }
+  }
