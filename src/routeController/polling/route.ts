@@ -1,5 +1,5 @@
 import express  from "express";
-import { verifyToken } from "src/middleware/auth";
+import { verifyToken } from "../../middleware/auth";
 import { createPoolingBooth } from "./controller/create";
 
 import { getAllPoolingBooths, getPoolingBoothById } from "./controller/get";
@@ -11,10 +11,10 @@ import { deletePoolingBooth } from "./controller/delete";
 
 const polling = express.Router()
 
-polling.post('/',verifyToken,createPoolingBooth)
-polling.get('/',verifyToken, getAllPoolingBooths)
-polling.get('/:id',verifyToken, getPoolingBoothById)
-polling.put('/:id', verifyToken, editPoolingBooth)
-polling.delete('/:id', verifyToken, deletePoolingBooth)
+polling.post('/',createPoolingBooth)
+polling.get('/', getAllPoolingBooths)
+polling.get('/:id', getPoolingBoothById)
+polling.put('/:id', editPoolingBooth)
+polling.delete('/:id', deletePoolingBooth)
 
 export default polling

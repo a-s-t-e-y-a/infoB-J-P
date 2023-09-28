@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
-import { CustomError } from '../utils/errorThrow';
-import { responseError } from 'apps/akku/src/utils/responseError';
+
 import { Response, Request, NextFunction } from 'express';
+import  {CustomError}  from '../utlis/throwError';
+import { errorResponse } from '../utlis/responseError';
 
 interface Authenticate extends Request {
   userId: string;
@@ -16,8 +17,9 @@ export async function verifyToken(
     if (req.cookies.jwt == undefined) {
       throw new CustomError(
         'Please login first',
-        'Unauthorized error',
-        401
+        401,
+        'Unauthorized error'
+       
       );
     }
  
@@ -27,15 +29,18 @@ export async function verifyToken(
       if (err) {
         throw new CustomError(
           'Token verification failed',
-          'Unauthorized error',
-          401
+          401,
+          'Unauthorized error'
+       
         );
       }
-      req.userId = decoded.find.id;
-      console.log(decoded.find.id)
+  
+      req.userId = decoded.user.id;
+
       next();
     });
   } catch (err) {
-    return responseError(res, err);
+    console.log(err)
+    return errorResponse(res, err);
   }
 }

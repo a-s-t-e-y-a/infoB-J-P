@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { responseSuccess } from 'src/utlis/responseSuccess';
-import { errorResponse } from 'src/utlis/responseError';
+import { responseSuccess } from '../../../utlis/responseSuccess';
+import { errorResponse } from '../../../utlis/responseError';
 
 const prisma = new PrismaClient();
 

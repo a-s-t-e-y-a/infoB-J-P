@@ -17,61 +17,58 @@ model User {
   phoneNumber String
   dob         String
   village     String
-  hash    String
+  hash        String
 }
 
 //  mundal - block -> panchayat/ppoling booth [one to many with block ] - > prbhari mtlb incharge -> sankjyok coordinator  -> only one i
 model Mundal {
-  id            Int            @id @default(autoincrement())
-  name          String
-  adhyaksha     Int
-  upaadhyaksha  Int
-  mahamantri    Int
-  mantri        Int
-  koshadhyaksha Int
-  karyakarta    karykarta[]
-  Sector        Sector[]
-  poolingBooth  poolingBooth[]
+  id           Int            @id @default(autoincrement())
+  name         String
+  // adhyaksha     Int            @default(0)
+  // upaadhyaksha  Int            @default(0)
+  // mahamantri    Int            @default(0)
+  // mantri        Int            @default(0)
+  // koshadhyaksha Int            @default(0)
+  karyakarta   karykarta[]
+  Sector       Sector?
 }
 
 model Sector {
-  id                   Int            @id @default(autoincrement())
-  name                 String
-  shaktikendraSanyojak Int
-  shaktikendraprabhari Int
-  mundal               Mundal         @relation(fields: [mundalId], references: [id])
-  mundalId             Int
+  id           Int            @id @default(autoincrement())
+  name         String
+  // shaktikendraSanyojak Int
+  // shaktikendraprabhari Int
+  mundal       Mundal?        @relation(fields: [mundalId], references: [id])
+  mundalId     Int?           @unique
   karykarta            karykarta[]
-  poolingBooth         poolingBooth[]
+  poolingBooth poolingBooth?
 }
 
 model poolingBooth {
   id             Int         @id @default(autoincrement())
   name           String
-  adhyakshaBooth String
-  mundal         Mundal      @relation(fields: [mundalId], references: [id])
-  mundalId       Int
-  sector         Sector      @relation(fields: [sectorId], references: [id])
-  sectorId       Int
+  // adhyakshaBooth String
+  sector         Sector?      @relation(fields: [sectorId], references: [id])
+  sectorId       Int? @unique
   karykarta      karykarta[]
 }
 
 model karykarta {
-  id             Int          @id @default(autoincrement())
+  id             Int           @id @default(autoincrement())
   name           String
   address        String
   mobileNumber   String
   dob            String
   religion       String
   gender         String
-  previousParty  String?      @default("None")
+  previousParty  String?       @default("None")
   mundal         Mundal?       @relation(fields: [mundalId], references: [id])
   mundalId       Int?
-  sector         Sector?      @relation(fields: [sectorId], references: [id])
+  sector         Sector?       @relation(fields: [sectorId], references: [id])
   sectorId       Int?
   poolingBooth   poolingBooth? @relation(fields: [poolingBoothid], references: [id])
   poolingBoothid Int?
-  role           Role         @default(karyakarta)
+  role           Role          @default(karyakarta)
 }
 
 enum Role {

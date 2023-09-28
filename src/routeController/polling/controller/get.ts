@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { responseSuccess } from 'src/utlis/responseSuccess';
-import { errorResponse } from 'src/utlis/responseError';
-import { CustomError } from 'src/utlis/throwError';
+import { responseSuccess } from '../../../utlis/responseSuccess';
+import { errorResponse } from '../../../utlis/responseError';
+import { CustomError } from '../../../utlis/throwError';
 
 const prisma = new PrismaClient();
 
@@ -15,7 +15,7 @@ export async function getPoolingBoothById(req: Request, res: Response) {
           id: poolingBoothId,
         },
         include: {
-          mundal: true,
+          // mundal: true,
           sector: true,
           karykarta: true,
         },
@@ -55,6 +55,9 @@ export async function getAllPoolingBooths(req: Request, res: Response) {
   
       const poolingBooths = await prisma.poolingBooth.findMany({
         where: filters,
+        include:{
+          sector:true
+        }
       });
   
       responseSuccess(res, {

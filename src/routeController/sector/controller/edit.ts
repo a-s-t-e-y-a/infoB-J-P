@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-
-import { MundalInput } from 'src/interfaces/mundal';
-import { responseSuccess } from 'src/utlis/responseSuccess';
-import { errorResponse } from 'src/utlis/responseError';
+import { responseSuccess } from '../../../utlis/responseSuccess';
+import { errorResponse } from '../../../utlis/responseError';
+import { SectorInput } from 'src/interfaces/sector';
 
 const prisma = new PrismaClient();
 export async function editSector(req: Request, res: Response) {

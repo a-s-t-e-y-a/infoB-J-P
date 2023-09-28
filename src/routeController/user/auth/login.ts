@@ -25,14 +25,15 @@ export async function loginUser(req: Request, res: Response) {
     
     if (passwordMatch) {
       // Passwords match, user is authenticated.
+      
+      const signedInfo = jwt.sign({ user }, 'BEARER');
+      res.cookie('jwt', signedInfo, {
+        httpOnly: true,
+      });
       responseSuccess(res, {
         status: 200,
         message: 'Login successful',
         data: user,
-      });
-      const signedInfo = jwt.sign({ user }, 'BEARER');
-      res.cookie('jwt', signedInfo, {
-        httpOnly: true,
       });
     } else {
       // Passwords do not match, return an error.

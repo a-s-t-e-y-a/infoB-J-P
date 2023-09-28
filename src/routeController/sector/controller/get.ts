@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { responseSuccess } from 'src/utlis/responseSuccess';
-import { errorResponse } from 'src/utlis/responseError';
-import { CustomError } from 'src/utlis/throwError';
+import { responseSuccess } from '../../../utlis/responseSuccess';
+import { errorResponse } from '../../../utlis/responseError';
+import { CustomError } from '../../../utlis/throwError';
 
 const prisma = new PrismaClient();
 export async function getSectorById(req: Request, res: Response) {
@@ -48,6 +48,10 @@ export async function getSectorById(req: Request, res: Response) {
       
       const sectors = await prisma.sector.findMany({
         where,
+        include:{
+          mundal:true,
+          poolingBooth:true
+        }
       });
   
       responseSuccess(res, {

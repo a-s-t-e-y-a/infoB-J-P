@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 
-import { responseSuccess } from 'src/utlis/responseSuccess';
-import { errorResponse } from 'src/utlis/responseError';
+import { responseSuccess } from '../../../utlis/responseSuccess';
+import { errorResponse } from '../../../utlis/responseError';
 import { PoolingBoothInput } from 'src/interfaces/pooling';
 
 const prisma = new PrismaClient();
@@ -17,7 +17,7 @@ export async function editPoolingBooth(req: Request, res: Response) {
         },
         data: updatedData,
         include: {
-          mundal: true,
+          // mundal: true,
           sector: true,
           karykarta: true,
         },
