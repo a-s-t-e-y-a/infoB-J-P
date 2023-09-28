@@ -42,7 +42,6 @@ export async function getMundalById(req: Request, res: Response) {
 export async function getAllMundals(req: Request, res: Response) {
   try {
     const name = req.query.name as string | undefined;
-    const role = req.query.role as string | undefined; // Use 'role' for the role query parameter
 
     const mundals = await prisma.mundal.findMany({
       where: name ? { name } : undefined, // Use conditional object for filtering
@@ -56,22 +55,12 @@ export async function getAllMundals(req: Request, res: Response) {
       },
     });
 
-    const newData = {};
-
-    if (role !== undefined) {
-      newData['karyakarta'] = [];
-      mundals.forEach((info) => {
-        const karyakartaWithRole = info.karyakarta.filter((data) => data.role === role);
-        newData['mundal_name']= info.name
-        newData['id']= info.id
-        newData['karyakarta'].push(...karyakartaWithRole);
-      });
-    }
+    
 
     responseSuccess(res, {
       status: 200,
       message: 'All Mundals retrieved successfully',
-      data: Object.keys(newData).length > 0 ? newData : mundals,
+      data:  mundals,
     });
 
    
