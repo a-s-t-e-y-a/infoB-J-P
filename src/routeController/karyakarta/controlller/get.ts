@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 export async function getKarykarta(req: Request, res: Response) {
   try {
-    const { mundalId, role, previousParty, download } = req.query;
+    const { mundalId, role, previousParty, download ,gender,religion} = req.query;
     if (role) {
       if (role && !Object.values(Role).includes(role as Role)) {
         throw new CustomError('Enter a valid role number', 400, 'Bad request');
@@ -20,6 +20,8 @@ export async function getKarykarta(req: Request, res: Response) {
         mundalId: mundalId ? parseInt(mundalId.toString()) : undefined,
         role: role ? (role as Role) : undefined,
         previousParty: previousParty ? previousParty.toString() : undefined,
+        gender: gender ? gender.toString() : undefined,
+        religion: religion ? religion.toString() : undefined,
       },
       include: {
         mundal: true, // Include the mundal data in the response
