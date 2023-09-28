@@ -3,6 +3,9 @@ import { PrismaClient } from '@prisma/client';
 import { responseSuccess } from '../../../utlis/responseSuccess';
 import { errorResponse } from '../../../utlis/responseError';
 import { CustomError } from '../../../utlis/throwError';
+import { CountRole } from '../services/upaadhyakashaCount';
+import { Create } from '../services/prismaCreate';
+import { KarykartaInput } from 'src/interfaces/karykarta';
 
 const prisma = new PrismaClient();
 
@@ -18,40 +21,7 @@ export async function createKarykarta(req: Request, res: Response) {
       previousParty,
       mundalId,
       role,
-      // sectorId,
-      // poolingBoothId,
     } = req.body as KarykartaInput;
-
-    // const karykartaData: any = {
-    //   name,
-    //   address,
-    //   mobileNumber,
-    //   dob,
-    //   religion,
-    //   gender,
-    //   previousParty: previousParty || 'None',
-    //   role: 'karyakarta',
-    // };
-
-    // // Conditionally connect related entities based on their IDs
-    // if (mundalId) {
-    //   karykartaData.mundal = {
-    //     connect: { id: mundalId },
-    //   };
-    // }
-    // if (sectorId) {
-    //   karykartaData.sector = {
-    //     connect: { id: sectorId },
-    //   };
-    // }
-    // if (poolingBoothId) {
-    //   karykartaData.poolingBooth = {
-    //     connect: { id: poolingBoothId },
-    //   };
-    // }
-    // if(role){
-    //   if(role ==)
-    // }
     if (role) {
       const karyakartaRoleFind = await prisma.mundal.findUnique({
         where: {
@@ -61,46 +31,15 @@ export async function createKarykarta(req: Request, res: Response) {
           karyakarta: true,
         },
       });
-      console.log(role);
-      console.log(karyakartaRoleFind);
       if (role == 'adhyaksha') {
-        karyakartaRoleFind.karyakarta.map((info) => {
-          if (info.role == 'adhyaksha') {
-            throw new CustomError(
-              'adhyaksha in this mandal already exist',
-              400,
-              'Bad request'
-            );
-          }
-        });
-      } else if (role == 'koshadhyaksha') {
-        karyakartaRoleFind.karyakarta.map((info) => {
-          if (info.role == 'koshadhyaksha') {
-            throw new CustomError(
-              'koshadhyaksha in this mandal already exist',
-              400,
-              'Bad request'
-            );
-          }
-        });
-      } else if (role == 'upaadhyaksha') {
-        console.log(role)
-        let count = 0;
-        karyakartaRoleFind.karyakarta.map((info) => {
-          if (info.role == 'upaadhyaksha') {
-            count++;
-            if (count == 4) {
-              throw new CustomError(
-                'upaadhyaksha in this mandal already exist',
-                400,
-                'Bad request'
-              );
-            }
-          }
-        });
-      } else {
-        const karykarta = await prisma.karykarta.create({
-          data: {
+        if ((await CountRole(role, karyakartaRoleFind)) == true) {
+          throw new CustomError(
+            'adhyaksha in this mandal already exist',
+            400,
+            'Bad request'
+          );
+        } else {
+          const karykarta = await Create(
             name,
             address,
             mobileNumber,
@@ -108,15 +47,132 @@ export async function createKarykarta(req: Request, res: Response) {
             religion,
             gender,
             previousParty,
-            mundal: { connect: { id: mundalId } },
-            role,
-          },
-          include: {
-            mundal: true,
-            sector: true,
-            poolingBooth: true,
-          },
-        });
+            mundalId,
+            role
+          );
+
+          responseSuccess(res, {
+            status: 200,
+            message: 'Karykarta created successfully',
+            data: karykarta,
+          });
+        }
+      } else if (role == 'koshadhyaksha') {
+        if ((await CountRole(role, karyakartaRoleFind)) == true) {
+          throw new CustomError(
+            'koshadhyaksha in this mandal already exist',
+            400,
+            'Bad request'
+          );
+        } else {
+          const karykarta = await Create(
+            name,
+            address,
+            mobileNumber,
+            dob,
+            religion,
+            gender,
+            previousParty,
+            mundalId,
+            role
+          );
+
+          responseSuccess(res, {
+            status: 200,
+            message: 'Karykarta created successfully',
+            data: karykarta,
+          });
+        }
+      } else if (role == 'upaadhyaksha') {
+        if ((await CountRole(role, karyakartaRoleFind)) == true) {
+          throw new CustomError(
+            'upaadhyaksha in this mandal already exist',
+            400,
+            'Bad request'
+          );
+        } else {
+          const karykarta = await Create(
+            name,
+            address,
+            mobileNumber,
+            dob,
+            religion,
+            gender,
+            previousParty,
+            mundalId,
+            role
+          );
+
+          responseSuccess(res, {
+            status: 200,
+            message: 'Karykarta created successfully',
+            data: karykarta,
+          });
+        }
+      } else if (role == 'mahamantri') {
+        if ((await CountRole(role, karyakartaRoleFind)) == true) {
+          throw new CustomError(
+            'mahamantri in this mandal already exist',
+            400,
+            'Bad request'
+          );
+        } else {
+          const karykarta = await Create(
+            name,
+            address,
+            mobileNumber,
+            dob,
+            religion,
+            gender,
+            previousParty,
+            mundalId,
+            role
+          );
+
+          responseSuccess(res, {
+            status: 200,
+            message: 'Karykarta created successfully',
+            data: karykarta,
+          });
+        }
+      } else if (role == 'mantri') {
+        if ((await CountRole(role, karyakartaRoleFind)) == true) {
+          throw new CustomError(
+            'mantri in this mandal already exist',
+            400,
+            'Bad request'
+          );
+        } else {
+          const karykarta = await Create(
+            name,
+            address,
+            mobileNumber,
+            dob,
+            religion,
+            gender,
+            previousParty,
+            mundalId,
+            role
+          );
+
+          responseSuccess(res, {
+            status: 200,
+            message: 'Karykarta created successfully',
+            data: karykarta,
+          });
+        }
+      } else if(role == 'karyakarta'){
+        const karykarta = await Create(
+          name,
+          address,
+          mobileNumber,
+          dob,
+          religion,
+          gender,
+          previousParty,
+          mundalId,
+          role
+        );
 
         responseSuccess(res, {
           status: 200,
@@ -124,37 +180,9 @@ export async function createKarykarta(req: Request, res: Response) {
           data: karykarta,
         });
       }
-
-      console.log(karyakartaRoleFind);
     }
   } catch (err) {
     console.error(err);
     errorResponse(res, err);
   }
-}
-
-enum CustomRole {
-  karyakarta = 'karyakarta',
-  adhyaksha = 'adhyaksha',
-  koshadhyaksha = 'koshadhyaksha',
-  mahamantri = 'mahamantri',
-  mantri = 'mantri',
-  upaadhyaksha = 'upaadhyaksha',
-  adhyakshaBooth = 'adhyakshaBooth',
-  shaktikendraSanyojak = 'shaktikendraSanyojak',
-  shaktikendraprabhari = 'shaktikendraprabhari',
-}
-
-interface KarykartaInput {
-  name: string;
-  address: string;
-  mobileNumber: string;
-  dob: string;
-  religion: string;
-  gender: string;
-  previousParty?: string;
-  mundalId?: number;
-  sectorId?: number;
-  poolingBoothId?: number;
-  role: CustomRole;
 }
