@@ -1,4 +1,4 @@
-enum CustomRole {
+export enum CustomRole {
     karyakarta = 'karyakarta',
     adhyaksha = 'adhyaksha',
     koshadhyaksha = 'koshadhyaksha',

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Role } from '@prisma/client';
 import { responseSuccess } from '../../../utlis/responseSuccess';
 import { errorResponse } from '../../../utlis/responseError';
 
@@ -7,20 +7,13 @@ const prisma = new PrismaClient();
 
 export async function getKarykarta(req: Request, res: Response) {
   try {
-    const { mundalId, sectorId, poolingBoothId, previousParty } = req.query;
+    const { mundalId, role, previousParty } = req.query;
 
     const karykartas = await prisma.karykarta.findMany({
       where: {
         mundalId: mundalId ? parseInt(mundalId.toString()) : undefined,
-        sectorId: sectorId ? parseInt(sectorId.toString()) : undefined,
-        poolingBoothid: poolingBoothId
-          ? parseInt(poolingBoothId.toString())
-          : undefined,
-        previousParty: previousParty
-          ? {
-              contains: previousParty.toString(),
-            }
-          : undefined,
+        role: role ? (role as Role) : undefined,
+        previousParty: previousParty ? previousParty.toString() : undefined,
       },
       include: {
         mundal: true, // Include the mundal data in the response
