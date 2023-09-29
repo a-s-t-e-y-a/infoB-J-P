@@ -8,7 +8,8 @@ const prisma = new PrismaClient();
 
 export async function getKarykarta(req: Request, res: Response) {
   try {
-    const { mundalId, role, previousParty, download ,gender,religion} = req.query;
+    const { mundalId, role, previousParty, download, gender, religion } =
+      req.query;
     if (role) {
       if (role && !Object.values(Role).includes(role as Role)) {
         throw new CustomError('Enter a valid role number', 400, 'Bad request');
@@ -24,9 +25,9 @@ export async function getKarykarta(req: Request, res: Response) {
         religion: religion ? religion.toString() : undefined,
       },
       include: {
-        mundal: true, // Include the mundal data in the response
-        sector: true, // Include the sector data in the response
-        poolingBooth: true, // Include the poolingBooth data in the response
+        mundal: true,
+        sector: true,
+        poolingBooth: true,
       },
     });
     console.log(karykartas);
@@ -39,16 +40,14 @@ export async function getKarykarta(req: Request, res: Response) {
           size: 12,
           bold: true,
         },
-        alignment:{horizontal :'center', vertical:'center'},
-        
+        alignment: { horizontal: 'center', vertical: 'center' },
       });
       const style2 = wb.createStyle({
         font: {
           color: '#000000',
           size: 12,
         },
-        alignment:{horizontal :'center', vertical:'center'},
-        
+        alignment: { horizontal: 'center', vertical: 'center' },
       });
       ws.cell(1, 1).string('Id').style(style);
       ws.cell(1, 2).string('Name').style(style);
@@ -77,17 +76,29 @@ export async function getKarykarta(req: Request, res: Response) {
         count++;
       });
       wb.write('report.xlsx', res);
-    }else{
-       responseSuccess(res, {
-      status: 200,
-      message: 'Karykartas retrieved successfully',
-      data: karykartas,
-    });
+    } else {
+      responseSuccess(res, {
+        status: 200,
+        message: 'Karykartas retrieved successfully',
+        data: karykartas,
+      });
     }
-
-   
   } catch (err) {
     console.error(err);
+    errorResponse(res, err);
+  }
+}
+export async function getPreviousParty(req: Request, res: Response) {
+  try {
+    const data = await prisma.karykarta.groupBy({
+      by: ['previousParty'],
+    });
+    responseSuccess(res, {
+      status: 200,
+      message: 'Karykartas retrieved successfully',
+      data: data,
+    });
+  } catch (err) {
     errorResponse(res, err);
   }
 }
