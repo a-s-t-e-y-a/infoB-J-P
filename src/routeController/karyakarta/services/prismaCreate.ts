@@ -11,7 +11,7 @@ export async function Create(name , address, mobileNumber, dob, religion, gender
           religion,
           gender,
           previousParty,
-          mundal: { connect: { id: mundalId } },
+          mundal: { connect: { id: parseInt(mundalId) } },
           role,
         },
         include: {

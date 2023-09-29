@@ -18,7 +18,7 @@ export enum CustomRole {
     religion: string;
     gender: string;
     previousParty?: string;
-    mundalId?: number;
+    mundalId?: string;
     sectorId?: number;
     poolingBoothId?: number;
     role: CustomRole;
