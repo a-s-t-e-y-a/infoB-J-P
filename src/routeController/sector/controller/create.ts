@@ -4,12 +4,13 @@ import { errorResponse } from '../.././../utlis/responseError';
 import { SectorInput } from 'src/interfaces/sector';
 import { responseSuccess } from '../../../utlis/responseSuccess';
 import { CustomError } from '../../../utlis/throwError';
+import karykarta from 'src/routeController/karyakarta/route';
 
 const prisma = new PrismaClient();
 // Create a Sector
 export async function createSector(req: Request, res: Response) {
   try {
-    const { name, mundalId } = req.body as SectorInput;
+    const { name, mundalId ,karykartaId} = req.body as SectorInput;
     const sectorFind = await prisma.sector.findMany({
       where: {
         name: name,
@@ -29,6 +30,9 @@ export async function createSector(req: Request, res: Response) {
         mundal: {
           connect: { id: Number(mundalId) },
         },
+        karykarta:{
+          connect:{id:Number(karykartaId)}
+        }
       },
     });
 

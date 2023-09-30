@@ -69,3 +69,5 @@ export async function getAllMundals(req: Request, res: Response) {
     errorResponse(res, err);
   }
 }
+
+
