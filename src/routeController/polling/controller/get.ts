@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { responseSuccess } from '../../../utlis/responseSuccess';
 import { errorResponse } from '../../../utlis/responseError';
 import { CustomError } from '../../../utlis/throwError';
+import mundal from 'src/routeController/madal/route';
 
 const prisma = new PrismaClient();
 
@@ -56,7 +57,9 @@ export async function getAllPoolingBooths(req: Request, res: Response) {
       const poolingBooths = await prisma.poolingBooth.findMany({
         where: filters,
         include:{
-          sector:true
+          sector:true,
+          karykarta:true,
+
         }
       });
   

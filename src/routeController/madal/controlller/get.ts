@@ -19,7 +19,7 @@ export async function getMundalById(req: Request, res: Response) {
         Sector: {
           include: {
             poolingBooth: true,
-          }
+          },
         },
       },
     });
@@ -43,7 +43,7 @@ export async function getAllMundals(req: Request, res: Response) {
   try {
     const name = req.query.name as string | undefined;
 
-    const mundals = await prisma.mundal.findMany({
+    const mundals  = await prisma.mundal.findMany({
       where: name ? { name } : undefined, // Use conditional object for filtering
       include: {
         karyakarta: true,
@@ -54,16 +54,11 @@ export async function getAllMundals(req: Request, res: Response) {
         },
       },
     });
-
-    
-
     responseSuccess(res, {
       status: 200,
       message: 'All Mundals retrieved successfully',
-      data:  mundals,
+      data: mundals,
     });
-
-   
   } catch (err) {
     console.error(err);
     errorResponse(res, err);
@@ -71,3 +66,29 @@ export async function getAllMundals(req: Request, res: Response) {
 }
 
 
+interface MundalDataItem {
+  id: number;
+  name: string;
+  karyakarta: Array<{
+    id: number;
+    name: string;
+    address: string;
+    mobileNumber: string;
+    dob: string;
+    religion: string;
+    gender: string;
+    previousParty: string;
+    mundalId: number;
+    sectorId: number | null;
+    poolingBoothid: number | null;
+    role: string;
+  }>;
+  Sector: any | null; // Define the correct type for Sector if possible
+  karyakartaCount?: number; // Added property for karyakarta count
+  sectorCount?: number; // Added property for sector count
+}
+
+interface MundalData {
+  message: string;
+  data: MundalDataItem[];
+}
