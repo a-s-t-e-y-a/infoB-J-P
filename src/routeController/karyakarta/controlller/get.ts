@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 
 export async function getKarykarta(req: Request, res: Response) {
   try {
-    const { mundalId, role, previousParty, download, gender, religion , type} =
+    const { mundalId, role, previousParty, download, gender, religion, type } =
       req.query;
     if (role) {
       if (role && !Object.values(Role).includes(role as Role)) {
@@ -35,7 +35,7 @@ export async function getKarykarta(req: Request, res: Response) {
     });
     console.log(karykartas);
     if (Boolean(download) == true) {
-      if ((type == 'Excel')) {
+      if (type == 'Excel') {
         const wb = new Workbook();
         const ws = wb.addWorksheet('Sheet 1');
         const style = wb.createStyle({
@@ -80,7 +80,7 @@ export async function getKarykarta(req: Request, res: Response) {
           count++;
         });
         wb.write('report.xlsx', res);
-      } else  if(type=='pdf'){
+      } else if (type == 'pdf') {
         const doc = new jsPDF('l');
         autoTable(doc, { html: '#my-table' });
 

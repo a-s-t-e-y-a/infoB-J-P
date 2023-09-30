@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 // Create a Sector
 export async function createSector(req: Request, res: Response) {
   try {
-    const { name, mundalId ,karykartaId} = req.body as SectorInput;
+    const { name, mundalId, sanyojakId, prabhariID } = req.body as SectorInput;
     const sectorFind = await prisma.sector.findMany({
       where: {
         name: name,
@@ -23,24 +23,118 @@ export async function createSector(req: Request, res: Response) {
         'Bad request'
       );
     }
-    const sector = await prisma.sector.create({
-      data: {
-        name,
-        // Connect the sector to a Mundal using the mundalId
-        mundal: {
-          connect: { id: Number(mundalId) },
+    const karykartaIds: number[] = [];
+
+    if (sanyojakId !== undefined) {
+      karykartaIds.push(Number(sanyojakId));
+    }
+
+    if (prabhariID !== undefined) {
+      karykartaIds.push(Number(prabhariID));
+    }
+    console.log(karykartaIds)
+    const karykartas = await prisma.karykarta.findMany({
+      where: {
+        id: {
+          in: karykartaIds,
         },
-        karykarta:{
-          connect:{id:Number(karykartaId)}
-        }
       },
     });
+    console.log(karykartas);
+    if (karykartas.every((karykarta) => karykarta.role === 'karyakarta')) {
+      if (karykartas.every((karykarta) => karykarta.mundalId == mundalId))  {
+        let sector;
+        if (sanyojakId !== undefined && prabhariID !== undefined) {
+          sector = await prisma.sector.create({
+            data: {
+              name,
+              mundal: {
+                connect: { id: Number(mundalId) },
+              },
+              karykarta: {
+                connect: [
+                  { id: Number(sanyojakId) },
+                  { id: Number(prabhariID) },
+                ],
+              },
+            },
+          });
+        } else if (sanyojakId) {
+          sector = await prisma.sector.create({
+            data: {
+              name,
+              mundal: {
+                connect: { id: Number(mundalId) },
+              },
+              karykarta: {
+                connect: { id: Number(sanyojakId) },
+              },
+            },
+          });
+        } else if (prabhariID) {
+          sector = await prisma.sector.create({
+            data: {
+              name,
+              mundal: {
+                connect: { id: Number(mundalId) },
+              },
+              karykarta: {
+                connect: { id: Number(prabhariID) },
+              },
+            },
+          });
+        }
 
-    responseSuccess(res, {
-      status: 201,
-      message: 'Sector created successfully',
-      data: sector,
-    });
+        if (sanyojakId) {
+          await prisma.karykarta.update({
+            where: {
+              id: Number(sanyojakId),
+            },
+            data: {
+              role: 'shaktikendraSanyojak',
+            },
+          });
+        }
+        if (prabhariID) {
+          await prisma.karykarta.update({
+            where: {
+              id: Number(prabhariID),
+            },
+            data: {
+              role: 'shaktikendraprabhari',
+            },
+          });
+        }
+
+        const sectorAgain = await prisma.sector.findUnique({
+          where: {
+            id: Number(sector.id),
+          },
+          include: {
+            karykarta: true,
+            mundal: true,
+          },
+        });
+        responseSuccess(res, {
+          status: 201,
+          message: 'Sector created successfully',
+          data: sectorAgain,
+        });
+      } else {
+        throw new CustomError(
+          'Sector and karykarta should belong to same mandal',
+          404,
+          'Bad request'
+        );
+      }
+    } else {
+      throw new CustomError(
+        'This karykarta also assigned a role',
+        404,
+        'Bad Request'
+      );
+    }
+    console.log(karykartas[0]);
   } catch (err) {
     console.error(err);
     errorResponse(res, err);
