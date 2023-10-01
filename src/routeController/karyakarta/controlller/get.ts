@@ -156,6 +156,7 @@ export async function getPreviousParty(req: Request, res: Response) {
       },
     });
   } catch (err) {
+    console.log(err)
     errorResponse(res, err);
   }
 }

@@ -8,37 +8,77 @@ import { CustomError } from '../../../utlis/throwError';
 const prisma = new PrismaClient();
 
 export async function createPoolingBooth(req: Request, res: Response) {
-    try {
-      const { name, sectorId } =
-        req.body as PoolingBoothInput;
-      const poolingBoothFind = await prisma.poolingBooth.findMany({
-        where:{
-          name :name
-        }
-      })
-      if(poolingBoothFind.length>0){
-        throw new CustomError('Pooling booth already added to sector ', 500 , 'Bad request')
+  try {
+    const { name, sectorId, karykartadId } = req.body as PoolingBoothInput;
+    const poolingBoothFind = await prisma.poolingBooth.findMany({
+      where: {
+        name: name,
+      },
+    });
+    if (poolingBoothFind.length > 0) {
+      throw new CustomError(
+        'Pooling booth already added to sector ',
+        500,
+        'Bad request'
+      );
+    }
+    const karyakartaFind = await prisma.karykarta.findUnique({
+      where: {
+        id: Number(karykartadId),
+      },
+    });
+    if (karyakartaFind) {
+      if (karyakartaFind.role == 'karyakarta') {
+        const poolingBooth = await prisma.poolingBooth.create({
+          data: {
+            name,
+            karykarta: {
+              connect: {
+                id: Number(karykartadId),
+              },
+            },
+            sector: {
+              connect: { id: Number(sectorId) },
+            },
+          },
+        });
+        await prisma.karykarta.update({
+          where: {
+            id: Number(karykartadId),
+          },
+          data: {
+            role: 'adhyakshaBooth',
+          },
+        });
+        responseSuccess(res, {
+          status: 201,
+          message: 'PoolingBooth created successfully',
+          data: poolingBooth,
+        });
+      } else {
+        throw new CustomError(
+          'This karykarta role is already defined ',
+          404,
+          'Bad request'
+        );
       }
+    } else {
       const poolingBooth = await prisma.poolingBooth.create({
         data: {
           name,
-          // adhyakshaBooth,
-          // mundal: {
-          //   connect: { id: mundalId },
-          // },
           sector: {
             connect: { id: Number(sectorId) },
           },
         },
       });
-  
       responseSuccess(res, {
         status: 201,
         message: 'PoolingBooth created successfully',
         data: poolingBooth,
       });
-    } catch (err) {
-      console.error(err);
-      errorResponse(res, err);
     }
+  } catch (err) {
+    console.error(err);
+    errorResponse(res, err);
   }
+}

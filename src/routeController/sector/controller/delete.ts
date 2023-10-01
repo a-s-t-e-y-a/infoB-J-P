@@ -20,8 +20,8 @@ export async function deleteSector(req: Request, res: Response) {
    
     // const data = [];
 
-    await sector.karykarta.map((info) =>
-      prisma.karykarta.update({
+     sector.karykarta.map(async (info) =>
+     await prisma.karykarta.update({
         where: {
           id: info.id,
         },

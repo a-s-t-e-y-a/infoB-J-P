@@ -9,11 +9,21 @@ export async function deleteMundal(req: Request, res: Response) {
     try {
       const mundalId = parseInt(req.params.id);
   
-      const mundal = await prisma.mundal.delete({
-        where: {
-          id: mundalId,
-        },
-      });
+     
+        // Delete Mundal and all related data
+       const mundal = await prisma.mundal.delete({
+          where: { id: mundalId },
+          include: {
+            karyakarta: true, // Include related Karyakarta
+            Sector: {
+              include: {
+                poolingBooth: true, // Include related poolingBooth
+              },
+            },
+          },
+        });
+        console.log(`Mundal with ID ${mundalId} and related data deleted successfully.`);
+     
   
       responseSuccess(res, {
         status: 200,
