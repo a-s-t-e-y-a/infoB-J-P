@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 const corsOptions = {
-  origin: '*', // Replace with your Next.js dev server port
+  origin: ['http://13.127.246.15:3000','http://localhost:3000'], // Replace with your Next.js dev server port
   credentials: true,
 };
 app.use(cors(corsOptions));
