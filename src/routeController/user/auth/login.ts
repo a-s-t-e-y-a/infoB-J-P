@@ -28,6 +28,7 @@ export async function loginUser(req: Request, res: Response) {
       // Passwords match, user is authenticated.
       
       const signedInfo = jwt.sign({ user }, 'BEARER');
+      res.setHeader('Access-Control-Allow-Credentials', 'true');
 
       res.cookie('jwt', signedInfo, {
         httpOnly: true,
