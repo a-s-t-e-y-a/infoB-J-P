@@ -29,11 +29,11 @@ export async function loginUser(req: Request, res: Response) {
       
       const signedInfo = jwt.sign({ user }, 'BEARER');
 
-      // res.cookie('jwt', signedInfo, {
-      //   httpOnly: true,
-      //   maxAge: 3600000, 
-      //   domain:'13.127.246.15'
-      // });
+      res.cookie('jwt', signedInfo, {
+        httpOnly: true,
+        maxAge: 3600000, 
+        domain:'13.127.246.15'
+      });
       responseSuccess(res, {
         status: 200,
         message: 'Login successful',
