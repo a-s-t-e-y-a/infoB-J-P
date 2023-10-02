@@ -17,7 +17,7 @@ model User {
   phoneNumber String
   dob         String
   village     String
-  hash        String
+  password        String
 }
 
 //  mundal - block -> panchayat/ppoling booth [one to many with block ] - > prbhari mtlb incharge -> sankjyok coordinator  -> only one i
