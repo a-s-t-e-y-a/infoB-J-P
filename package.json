@@ -21,6 +21,7 @@
     "jsonwebtoken": "^9.0.2",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.6.0",
+    "nookies": "^2.5.2",
     "pdfkit-table": "^0.1.99",
     "swr": "^2.2.4",
     "tslib": "^2.3.0"

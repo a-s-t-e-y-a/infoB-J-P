@@ -11,9 +11,11 @@ const app = express();
 // Middleware to parse JSON requests
 app.use(express.json());
 app.use(cookieParser());
-
-// Enable CORS for all routes
-app.use(cors());
+const corsOptions = {
+  origin: '*', // Replace with your Next.js dev server port
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.get('/', (req, res) => {
   res.send({ message: 'Hello API' });

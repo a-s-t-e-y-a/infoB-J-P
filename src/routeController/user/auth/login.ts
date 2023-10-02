@@ -5,6 +5,7 @@ import { responseSuccess } from '../../../utlis/responseSuccess';
 import { CustomError } from '../../../utlis/throwError';
 import { errorResponse } from '../../../utlis/responseError';
 import jwt from 'jsonwebtoken'
+import { setCookie } from 'nookies';
 const prisma = new PrismaClient();
 
 export async function loginUser(req: Request, res: Response) {
@@ -27,13 +28,17 @@ export async function loginUser(req: Request, res: Response) {
       // Passwords match, user is authenticated.
       
       const signedInfo = jwt.sign({ user }, 'BEARER');
+      res.setHeader('Access-Control-Allow-Credentials', 'true');
+
       res.cookie('jwt', signedInfo, {
         httpOnly: true,
+        maxAge: 3600000, 
       });
       responseSuccess(res, {
         status: 200,
         message: 'Login successful',
         data: user,
+        
       });
     } else {
       // Passwords do not match, return an error.
