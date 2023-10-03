@@ -32,6 +32,9 @@ export async function createSector(req: Request, res: Response) {
     if (prabhariID !== undefined) {
       karykartaIds.push(Number(prabhariID));
     }
+    if(sanyojakId== prabhariID){
+      throw new  CustomError('Sanyojak and prabhari cant be same',404,'Bad request')
+    }
     console.log(karykartaIds)
     const karykartas = await prisma.karykarta.findMany({
       where: {

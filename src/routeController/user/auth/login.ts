@@ -22,7 +22,7 @@ export async function loginUser(req: Request, res: Response) {
       throw new CustomError('User not found', 404, 'Not Found');
     }
     
-    const passwordMatch = await bcryptjs.compare(password, user.hash);
+    const passwordMatch = await bcryptjs.compare(password, user.password);
     
     if (passwordMatch) {
       // Passwords match, user is authenticated.

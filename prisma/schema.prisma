@@ -30,7 +30,7 @@ model Mundal {
   // mantri        Int            @default(0)
   // koshadhyaksha Int            @default(0)
   karyakarta karykarta[] 
-  Sector     Sector? 
+  Sector     Sector[]
 }
 
 model Sector {
@@ -39,9 +39,9 @@ model Sector {
   // shaktikendraSanyojak Int
   // shaktikendraprabhari Int
   mundal       Mundal?       @relation(fields: [mundalId], references: [id], onDelete: Cascade)
-  mundalId     Int?          @unique
+  mundalId     Int?          
   karykarta    karykarta[]
-  poolingBooth poolingBooth?
+  poolingBooth poolingBooth[]
 }
 
 model poolingBooth {
@@ -49,7 +49,7 @@ model poolingBooth {
   name      String
   // adhyakshaBooth String
   sector    Sector?     @relation(fields: [sectorId], references: [id], onDelete: Cascade)
-  sectorId  Int?        @unique
+  sectorId  Int?        
   karykarta karykarta[]
 }
 

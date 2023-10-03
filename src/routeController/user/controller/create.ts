@@ -28,7 +28,7 @@ export async function creatUser(req: Request, res: Response) {
               dob: dob,
               name: name,
               village: village,
-              hash: hash,
+              password: hash,
             },
           });
 

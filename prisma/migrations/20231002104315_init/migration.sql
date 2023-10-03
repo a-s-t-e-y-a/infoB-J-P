@@ -9,7 +9,7 @@ CREATE TABLE "User" (
     "phoneNumber" TEXT NOT NULL,
     "dob" TEXT NOT NULL,
     "village" TEXT NOT NULL,
-    "hash" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -60,9 +60,6 @@ CREATE TABLE "karykarta" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Sector_mundalId_key" ON "Sector"("mundalId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "poolingBooth_sectorId_key" ON "poolingBooth"("sectorId");
