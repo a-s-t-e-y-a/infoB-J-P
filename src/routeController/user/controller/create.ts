@@ -27,12 +27,10 @@ export async function creatUser(req: Request, res: Response) {
               phoneNumber: phoneNumber,
               dob: dob,
               name: name,
-              village: village,
               password: hash,
             },
           });
 
-          console.log(data_);
 
           responseSuccess(res, {
             status: 200,

@@ -14,33 +14,32 @@ export async function verifyToken(
   next: NextFunction
 ) {
   try {
-    if (req.cookies.jwt == undefined) {
-      throw new CustomError(
-        'Please login first',
-        401,
-        'Unauthorized error'
-       
-      );
+    let token: string | undefined;
+
+    if (req.cookies.jwt !== undefined) {
+      // If the token is in cookies, use it
+      token = req.cookies.jwt;
+    } else if (req.headers.authorization) {
+      // If the token is in the 'Authorization' header (e.g., "Bearer <token>")
+      const authHeader = req.headers.authorization;
+      token = authHeader
     }
- 
-    const token = req.cookies.jwt;
+
+    if (!token) {
+      throw new CustomError('Token not found', 401, 'Unauthorized error');
+    }
 
     jwt.verify(token, 'BEARER', (err, decoded) => {
       if (err) {
-        throw new CustomError(
-          'Token verification failed',
-          401,
-          'Unauthorized error'
-       
-        );
+        throw new CustomError('Token verification failed', 401, 'Unauthorized error');
       }
-  
+
       req.userId = decoded.user.id;
 
       next();
     });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return errorResponse(res, err);
   }
 }

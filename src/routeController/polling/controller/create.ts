@@ -4,10 +4,11 @@ import { responseSuccess } from '../../../utlis/responseSuccess';
 import { errorResponse } from '../../../utlis/responseError';
 import { PoolingBoothInput } from 'src/interfaces/pooling';
 import { CustomError } from '../../../utlis/throwError';
+import { Authenticate } from 'src/interfaces/requestInterface';
 
 const prisma = new PrismaClient();
 
-export async function createPoolingBooth(req: Request, res: Response) {
+export async function createPoolingBooth(req:Authenticate, res: Response) {
   try {
     const { name, sectorId, karykartadId } = req.body as PoolingBoothInput;
     const poolingBoothFind = await prisma.poolingBooth.findMany({
@@ -40,6 +41,7 @@ export async function createPoolingBooth(req: Request, res: Response) {
             sector: {
               connect: { id: Number(sectorId) },
             },
+            author:{connect:{id:req.userId}}
           },
         });
         await prisma.karykarta.update({
@@ -69,6 +71,7 @@ export async function createPoolingBooth(req: Request, res: Response) {
           sector: {
             connect: { id: Number(sectorId) },
           },
+          author:{connect:{id:req.userId}}
         },
       });
       responseSuccess(res, {

@@ -7,10 +7,10 @@ import { deleteMundal } from './controlller/delete';
 
 const mundal = express.Router();
 
-mundal.post('/', createMundal);
-mundal.get('/', getAllMundals);
-mundal.get('/:id', getMundalById);
-mundal.put('/:id', editMundal);
-mundal.delete('/:id', deleteMundal);
+mundal.post('/',verifyToken,createMundal);
+mundal.get('/', verifyToken,getAllMundals);
+mundal.get('/:id', verifyToken,getMundalById);
+mundal.put('/:id', verifyToken,editMundal);
+mundal.delete('/:id', verifyToken,deleteMundal);
 
 export default mundal;

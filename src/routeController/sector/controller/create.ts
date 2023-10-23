@@ -5,10 +5,11 @@ import { SectorInput } from 'src/interfaces/sector';
 import { responseSuccess } from '../../../utlis/responseSuccess';
 import { CustomError } from '../../../utlis/throwError';
 import karykarta from 'src/routeController/karyakarta/route';
+import { Authenticate } from 'src/interfaces/requestInterface';
 
 const prisma = new PrismaClient();
 // Create a Sector
-export async function createSector(req: Request, res: Response) {
+export async function createSector(req:Authenticate, res: Response) {
   try {
     const { name, mundalId, sanyojakId, prabhariID } = req.body as SectorInput;
     const sectorFind = await prisma.sector.findMany({
@@ -51,6 +52,7 @@ export async function createSector(req: Request, res: Response) {
           sector = await prisma.sector.create({
             data: {
               name,
+              author:{connect:{id:req.userId}},
               mundal: {
                 connect: { id: Number(mundalId) },
               },
@@ -72,6 +74,7 @@ export async function createSector(req: Request, res: Response) {
               karykarta: {
                 connect: { id: Number(sanyojakId) },
               },
+              author:{connect:{id:req.userId}}
             },
           });
         } else if (prabhariID) {
@@ -84,6 +87,7 @@ export async function createSector(req: Request, res: Response) {
               karykarta: {
                 connect: { id: Number(prabhariID) },
               },
+              author:{connect:{id:req.userId}}
             },
           });
         }

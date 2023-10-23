@@ -9,7 +9,7 @@ import { getKarykartaById } from "./controlller/getById";
 
 const karykarta = express.Router()
 
-karykarta.post('/',createKarykarta)
+karykarta.post('/',verifyToken,createKarykarta)
 karykarta.get('/', getKarykarta)
 karykarta.get('/previous', getPreviousParty)
 karykarta.get('/:id', getKarykartaById)

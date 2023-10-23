@@ -6,10 +6,13 @@ import { CustomError } from '../../../utlis/throwError';
 import { CountRole } from '../services/upaadhyakashaCount';
 import { Create } from '../services/prismaCreate';
 import { KarykartaInput } from 'src/interfaces/karykarta';
+import { Authenticate } from 'src/interfaces/requestInterface';
 
 const prisma = new PrismaClient();
 
-export async function createKarykarta(req: Request, res: Response) {
+export async function createKarykarta(req: Authenticate, res: Response) {
+  let id = req.userId
+  console.log(req.userId)
   try {
     const {
       name,
@@ -41,6 +44,7 @@ export async function createKarykarta(req: Request, res: Response) {
         } else {
           const karykarta = await Create(
             name,
+            id, 
             address,
             mobileNumber,
             dob,
@@ -74,7 +78,8 @@ export async function createKarykarta(req: Request, res: Response) {
             gender,
             previousParty,
             mundalId,
-            role
+            role,
+            id
           );
 
           responseSuccess(res, {
@@ -93,6 +98,7 @@ export async function createKarykarta(req: Request, res: Response) {
         } else {
           const karykarta = await Create(
             name,
+            id,
             address,
             mobileNumber,
             dob,
@@ -100,7 +106,7 @@ export async function createKarykarta(req: Request, res: Response) {
             gender,
             previousParty,
             mundalId,
-            role
+            role,
           );
 
           responseSuccess(res, {
@@ -119,6 +125,7 @@ export async function createKarykarta(req: Request, res: Response) {
         } else {
           const karykarta = await Create(
             name,
+            id,
             address,
             mobileNumber,
             dob,
@@ -126,7 +133,7 @@ export async function createKarykarta(req: Request, res: Response) {
             gender,
             previousParty,
             mundalId,
-            role
+            role,
           );
 
           responseSuccess(res, {
@@ -145,6 +152,7 @@ export async function createKarykarta(req: Request, res: Response) {
         } else {
           const karykarta = await Create(
             name,
+            id,
             address,
             mobileNumber,
             dob,
@@ -152,7 +160,7 @@ export async function createKarykarta(req: Request, res: Response) {
             gender,
             previousParty,
             mundalId,
-            role
+            role,
           );
 
           responseSuccess(res, {
@@ -164,6 +172,7 @@ export async function createKarykarta(req: Request, res: Response) {
       } else if(role == 'karyakarta'){
         const karykarta = await Create(
           name,
+          id,
           address,
           mobileNumber,
           dob,
@@ -171,7 +180,7 @@ export async function createKarykarta(req: Request, res: Response) {
           gender,
           previousParty,
           mundalId,
-          role
+          role,
         );
 
         responseSuccess(res, {

@@ -5,9 +5,10 @@ import { MundalInput } from 'src/interfaces/mundal';
 import { responseSuccess } from '../../../utlis/responseSuccess';
 import { errorResponse } from '../../../utlis/responseError';
 import { CustomError } from '../../../utlis/throwError';
+import { Authenticate } from 'src/interfaces/requestInterface';
 
 const prisma = new PrismaClient();
-export async function createMundal(req: Request, res: Response) {
+export async function createMundal(req: Authenticate, res: Response) {
   try {
     const { name } = req.body as MundalInput;
     const mundalFind = await prisma.mundal.findMany({
@@ -21,6 +22,7 @@ export async function createMundal(req: Request, res: Response) {
     const mundal = await prisma.mundal.create({
       data: {
         name,
+        authorId: req.userId
       },
     });
 

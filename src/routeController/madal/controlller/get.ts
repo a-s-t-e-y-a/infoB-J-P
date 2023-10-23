@@ -25,13 +25,21 @@ export async function getMundalById(req: Request, res: Response) {
     });
 
     if (!mundal) {
-      throw new CustomError('Mundal doesnit found', 404, 'Bad request');
+      throw new CustomError('Mundal does not found', 404, 'Bad request');
     }
-
+    const mundalKarykarta = await prisma.karykarta.findMany({
+      where:{
+        mundalId:Number(mundalId),
+        role:{in:['adhyaksha','upaadhyaksha','mahamantri','mantri','koshadhyaksha']}
+      }
+    })
     responseSuccess(res, {
       status: 200,
       message: 'Mundal retrieved successfully',
-      data: mundal,
+      data: {
+        'mundal':mundal,
+        'karyakarta':mundalKarykarta
+      },
     });
   } catch (err) {
     console.error(err);

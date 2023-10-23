@@ -16,41 +16,63 @@ model User {
   name        String
   phoneNumber String
   dob         String
-  village     String
-  password        String
+  password    String
+  posts       Post[]
+  mundal      Mundal []
+  sector      Sector[]
+  poolingBooth poolingBooth[]
+  karykarta   karykarta[]
+  village     village[]
 }
 
-//  mundal - block -> panchayat/ppoling booth [one to many with block ] - > prbhari mtlb incharge -> sankjyok coordinator  -> only one i
+model Post {
+  id        Int        @id @default(autoincrement())
+  title     String
+  content   String
+  published Boolean
+  author    User       @relation(fields: [authorId], references: [id])
+  authorId  Int
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
 model Mundal {
   id         Int         @id @default(autoincrement())
+  author     User @relation(fields:[authorId], references:[id])
+  authorId   Int 
   name       String
-  // adhyaksha     Int            @default(0)
-  // upaadhyaksha  Int            @default(0)
-  // mahamantri    Int            @default(0)
-  // mantri        Int            @default(0)
-  // koshadhyaksha Int            @default(0)
   karyakarta karykarta[] 
   Sector     Sector[]
 }
-
 model Sector {
   id           Int           @id @default(autoincrement())
   name         String
-  // shaktikendraSanyojak Int
-  // shaktikendraprabhari Int
+  author       User    @relation(fields:[authorId], references:[id])
+  authorId     Int
   mundal       Mundal?       @relation(fields: [mundalId], references: [id], onDelete: Cascade)
   mundalId     Int?          
   karykarta    karykarta[]
   poolingBooth poolingBooth[]
+  village      village[]
+}
+
+model village {
+  id Int @id @default(autoincrement())
+  name String
+  author User @relation(fields:[authorId], references:[id])
+  authorId Int
+  sector Sector? @relation(fields:[sectorId], references:[id], onDelete:Cascade)
+  sectorId Int?
 }
 
 model poolingBooth {
   id        Int         @id @default(autoincrement())
   name      String
-  // adhyakshaBooth String
   sector    Sector?     @relation(fields: [sectorId], references: [id], onDelete: Cascade)
   sectorId  Int?        
   karykarta karykarta[]
+  author    User @relation(fields:[authorId], references:[id])
+  authorId Int
 }
 
 model karykarta {
@@ -69,6 +91,8 @@ model karykarta {
   poolingBooth   poolingBooth? @relation(fields: [poolingBoothid], references: [id])
   poolingBoothid Int?
   role           Role          @default(karyakarta)
+  author         User @relation(fields:[authorId], references:[id])
+  authorId       Int
 }
 
 enum Role {
@@ -83,6 +107,3 @@ enum Role {
   shaktikendraprabhari
 }
 
-// model 
-
-// name , addersss,mundal , polling booth ,sector , mobileNumber , dob ,religion ,gender ,previousParty , 
