@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { responseSuccess } from '../../../utlis/responseSuccess';
 import { errorResponse } from '../../../utlis/responseError';
 import { Authenticate } from 'src/interfaces/requestInterface';
-import { CustomError } from 'src/utlis/throwError';
+import { CustomError } from '../../../utlis/throwError';
 
 const prisma = new PrismaClient();
 

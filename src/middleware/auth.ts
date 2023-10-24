@@ -33,7 +33,7 @@ export async function verifyToken(
       if (err) {
         throw new CustomError('Token verification failed', 401, 'Unauthorized error');
       }
-
+      console.log(decoded)
       req.userId = decoded.user.id;
 
       next();

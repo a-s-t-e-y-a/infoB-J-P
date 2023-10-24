@@ -9,10 +9,10 @@ import { deleteSector } from "./controller/delete";
 
 const sector = express.Router()
 
-sector.post('/',createSector)
-sector.get('/', getAllSectors)
-sector.get('/:id', getSectorById)
-sector.put('/:id', editSector)
-sector.delete('/:id', deleteSector)
+sector.post('/',verifyToken,createSector)
+sector.get('/', verifyToken,getAllSectors)
+sector.get('/:id', verifyToken, getSectorById)
+sector.put('/:id',verifyToken, editSector)
+sector.delete('/:id', verifyToken,deleteSector)
 
 export default sector

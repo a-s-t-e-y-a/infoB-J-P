@@ -1,7 +1,7 @@
 import {  Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { errorResponse } from "src/utlis/responseError";
-import { responseSuccess } from "src/utlis/responseSuccess";
+import { errorResponse } from "../../../utlis/responseError";
+import { responseSuccess } from "../../../utlis/responseSuccess";
 import { Authenticate } from "src/interfaces/requestInterface";
 
 const prisma = new PrismaClient();

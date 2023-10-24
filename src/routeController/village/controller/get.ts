@@ -3,14 +3,16 @@ import { PrismaClient } from '@prisma/client';
 import { responseSuccess } from '../../../utlis/responseSuccess';
 import { errorResponse } from '../../../utlis/responseError';
 import { Authenticate } from 'src/interfaces/requestInterface';
-import { CustomError } from 'src/utlis/throwError';
+import { CustomError } from '../../../utlis/throwError';
 
 const prisma = new PrismaClient();
 
 
 export async function getVillages(req: Authenticate, res: Response) {
   try {
-    const villages = await prisma.village.findMany();
+    const villages = await prisma.village.findMany({
+      include:{sector:true}
+    });
     responseSuccess(res, {
       data: villages,
       message: 'Villages retrieved successfully',

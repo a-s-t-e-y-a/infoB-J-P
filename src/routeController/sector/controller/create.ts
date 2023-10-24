@@ -10,6 +10,7 @@ import { Authenticate } from 'src/interfaces/requestInterface';
 const prisma = new PrismaClient();
 // Create a Sector
 export async function createSector(req:Authenticate, res: Response) {
+  console.log(req.userId)
   try {
     const { name, mundalId, sanyojakId, prabhariID } = req.body as SectorInput;
     const sectorFind = await prisma.sector.findMany({

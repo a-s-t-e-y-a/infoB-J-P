@@ -1,5 +1,5 @@
 import express from 'express'
-import { verifyToken } from 'src/middleware/auth'
+import { verifyToken } from '../../middleware/auth'
 import { createPost } from './controller/createBlog'
 import { getAllPosts } from './controller/getBlogAll'
 import { getPostById } from './controller/getBlogById'

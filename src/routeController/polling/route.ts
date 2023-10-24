@@ -11,10 +11,10 @@ import { deletePoolingBooth } from "./controller/delete";
 
 const polling = express.Router()
 
-polling.post('/',createPoolingBooth)
-polling.get('/', getAllPoolingBooths)
-polling.get('/:id', getPoolingBoothById)
-polling.put('/:id', editPoolingBooth)
-polling.delete('/:id', deletePoolingBooth)
+polling.post('/',verifyToken  ,createPoolingBooth)
+polling.get('/', verifyToken,getAllPoolingBooths)
+polling.get('/:id',verifyToken, getPoolingBoothById)
+polling.put('/:id', verifyToken, editPoolingBooth)
+polling.delete('/:id',verifyToken, deletePoolingBooth)
 
 export default polling

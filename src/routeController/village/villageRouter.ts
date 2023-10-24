@@ -1,5 +1,5 @@
 import express from 'express'
-import { verifyToken } from 'src/middleware/auth'
+import { verifyToken } from '../../middleware/auth'
 import { getVillageById, getVillages } from './controller/get'
 import { createVillage } from './controller/create'
 import { updateVillage } from './controller/edit'

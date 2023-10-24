@@ -18,13 +18,10 @@ const options: cors.CorsOptions = {
   origin: allowedOrigins,
 };
 
-// Then pass these options to cors:
 app.use(cors(options));
-// Middleware to parse JSON requests
 app.use(express.json());
 app.use(cookieParser());
 
-// Use th cors middleware to allow requests from "http://localhost:3000"
 
 app.get("/", (req, res) => {
   console.log("a");
