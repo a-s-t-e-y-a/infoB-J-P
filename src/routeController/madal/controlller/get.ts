@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-import { errorResponse } from '../../../utlis/responseError';
-import { CustomError } from '../../../utlis/throwError';
-import { responseSuccess } from '../../../utlis/responseSuccess';
-import karykarta from 'src/routeController/karyakarta/route';
+import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
+import { errorResponse } from "../../../utlis/responseError";
+import { CustomError } from "../../../utlis/throwError";
+import { responseSuccess } from "../../../utlis/responseSuccess";
+import karykarta from "src/routeController/karyakarta/route";
 
 const prisma = new PrismaClient();
 export async function getMundalById(req: Request, res: Response) {
@@ -11,31 +11,47 @@ export async function getMundalById(req: Request, res: Response) {
     const mundalId = parseInt(req.params.id);
 
     const mundal = await prisma.mundal.findMany({
-      where:{
-        id:mundalId
+      where: {
+        id: mundalId,
       },
-      include:{
-        Sector:true
-      }
-    })
-    const mundalKarykarta = await prisma.karykarta.findMany({
-      where:{
-        mundalId:Number(mundalId),
-        role:{in:['adhyaksha','upaadhyaksha','mahamantri','mantri','koshadhyaksha']}
-      }
-    })
-     const customOrder = ['adhyaksha', 'koshadhyaksha', 'upaadhyaksha', 'mantri', 'mahamantri'];
-
-    // Sort the karykartas array based on custom order
-    const sortedKarykartas = mundalKarykarta.sort((a, b) => {
-      return customOrder.indexOf(a.role) - customOrder.indexOf(b.role);
+      include: {
+        Sector: true,
+      },
     });
+    const mundalKarykarta = await prisma.karykarta.findMany({
+      where: {
+        mundalId: Number(mundalId),
+        role: {
+          in: [
+            "adhyaksha",
+            "upaadhyaksha",
+            "mahamantri",
+            "mantri",
+            "koshadhyaksha",
+            "karyakarta",
+          ],
+        },
+      },
+    });
+    const customOrder = [
+      "adhyaksha",
+      "koshadhyaksha",
+      "upaadhyaksha",
+      "mantri",
+      "mahamantri",
+      "karyakarta",
+    ];
+
+    // Create a new sorted array based on custom order
+    const sortedData = customOrder.flatMap((role) =>
+      mundalKarykarta.filter((item) => item.role === role)
+    );
     responseSuccess(res, {
       status: 200,
-      message: 'Mundal retrieved successfully',
+      message: "Mundal retrieved successfully",
       data: {
-        'mundal':mundal,
-        'karyakarta':mundalKarykarta
+        "mundal": mundal,
+        "karyakarta": sortedData,
       },
     });
   } catch (err) {
@@ -48,7 +64,7 @@ export async function getAllMundals(req: Request, res: Response) {
   try {
     const name = req.query.name as string | undefined;
 
-    const mundals  = await prisma.mundal.findMany({
+    const mundals = await prisma.mundal.findMany({
       where: name ? { name } : undefined, // Use conditional object for filtering
       include: {
         karyakarta: true,
@@ -61,7 +77,7 @@ export async function getAllMundals(req: Request, res: Response) {
     });
     responseSuccess(res, {
       status: 200,
-      message: 'All Mundals retrieved successfully',
+      message: "All Mundals retrieved successfully",
       data: mundals,
     });
   } catch (err) {
@@ -69,7 +85,6 @@ export async function getAllMundals(req: Request, res: Response) {
     errorResponse(res, err);
   }
 }
-
 
 interface MundalDataItem {
   id: number;

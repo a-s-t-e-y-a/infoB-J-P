@@ -53,7 +53,7 @@ model Sector {
   mundalId     Int?          
   karykarta    karykarta[]
   poolingBooth poolingBooth[]
-  village      village[]
+  village      village
 }
 
 model village {
