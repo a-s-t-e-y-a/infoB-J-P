@@ -14,7 +14,7 @@ export const createPost = async (req: Authenticate, res: Response) => {
       data: {
         title,
         content,
-        authorId: req.userId,
+        author:{connect:{id:req.userId}},
         published:true
       },
     });

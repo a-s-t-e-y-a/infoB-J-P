@@ -9,7 +9,8 @@ const prisma = new PrismaClient();
 
 export async function creatUser(req: Request, res: Response) {
   try {
-    const { email, phoneNumber, dob, password, name, village } =
+    console.log("dsgfhjd")
+    const { email, phoneNumber, dob, password, name } =
       req.body as User;
     const email_ = await prisma.user.findFirst({
       where: {
