@@ -71,6 +71,7 @@ export async function createKarykarta(req: Authenticate, res: Response) {
         } else {
           const karykarta = await Create(
             name,
+            id,
             address,
             mobileNumber,
             dob,
@@ -79,7 +80,7 @@ export async function createKarykarta(req: Authenticate, res: Response) {
             previousParty,
             mundalId,
             role,
-            id
+            
           );
 
           responseSuccess(res, {

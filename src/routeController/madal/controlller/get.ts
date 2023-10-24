@@ -10,34 +10,24 @@ export async function getMundalById(req: Request, res: Response) {
   try {
     const mundalId = parseInt(req.params.id);
 
-    const mundal = await prisma.mundal.findUnique({
-      where: {
-        id: mundalId,
-      },
-      include: {
-        karyakarta: true,
-        Sector: {
-          include: {
-            poolingBooth: true,
-          },
-        },
-      },
-    });
 
-    if (!mundal) {
-      throw new CustomError('Mundal does not found', 404, 'Bad request');
-    }
     const mundalKarykarta = await prisma.karykarta.findMany({
       where:{
         mundalId:Number(mundalId),
         role:{in:['adhyaksha','upaadhyaksha','mahamantri','mantri','koshadhyaksha']}
       }
     })
+     const customOrder = ['adhyaksha', 'koshadhyaksha', 'upaadhyaksha', 'mantri', 'mahamantri'];
+
+    // Sort the karykartas array based on custom order
+    const sortedKarykartas = mundalKarykarta.sort((a, b) => {
+      return customOrder.indexOf(a.role) - customOrder.indexOf(b.role);
+    });
     responseSuccess(res, {
       status: 200,
       message: 'Mundal retrieved successfully',
       data: {
-        'mundal':mundal,
+        // 'mundal':mundal,
         'karyakarta':mundalKarykarta
       },
     });
