@@ -9,8 +9,8 @@ import { updatePost } from './controller/editBlog'
 const blogRouter = express.Router()
 
 blogRouter.post('/', verifyToken ,createPost)
-blogRouter.get('/' ,verifyToken , getAllPosts)
-blogRouter.get('/:id', verifyToken , getPostById)
+blogRouter.get('/' , getAllPosts)
+blogRouter.get('/:id', getPostById)
 blogRouter.delete('/:id'  , verifyToken, deletePost)
 blogRouter.patch("/:id" ,verifyToken ,updatePost)
 
