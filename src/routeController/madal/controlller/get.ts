@@ -10,7 +10,14 @@ export async function getMundalById(req: Request, res: Response) {
   try {
     const mundalId = parseInt(req.params.id);
 
-
+    const mundal = await prisma.mundal.findMany({
+      where:{
+        id:mundalId
+      },
+      include:{
+        Sector:true
+      }
+    })
     const mundalKarykarta = await prisma.karykarta.findMany({
       where:{
         mundalId:Number(mundalId),
@@ -27,7 +34,7 @@ export async function getMundalById(req: Request, res: Response) {
       status: 200,
       message: 'Mundal retrieved successfully',
       data: {
-        // 'mundal':mundal,
+        'mundal':mundal,
         'karyakarta':mundalKarykarta
       },
     });
