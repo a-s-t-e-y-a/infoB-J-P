@@ -10,7 +10,7 @@ export const createPost = async (req: Authenticate, res: Response) => {
   console.log(req.body.title)
   const title = req.body.title;
   const content = req.body.content
-
+  console.log(req.uploadedFileName)
   try {
     const post = await prisma.post.create({
       data: {
@@ -18,8 +18,7 @@ export const createPost = async (req: Authenticate, res: Response) => {
         content: content,
         author: { connect: { id: req.userId } },
         published: true,
-        image:
-          `https://shivam-practics-bucket.s3.ap-south-1.amazonaws.com/${req.uploadedFileName}`,
+        image:`https://shivam-practics-bucket.s3.ap-south-1.amazonaws.com/${req.uploadedFileName}`,
       },
     });
 
