@@ -30,6 +30,7 @@ model Post {
   title     String
   content   String
   published Boolean
+  image     String?
   author    User       @relation(fields: [authorId], references: [id])
   authorId  Int
   createdAt DateTime   @default(now())
@@ -53,7 +54,7 @@ model Sector {
   mundalId     Int?          
   karykarta    karykarta[]
   poolingBooth poolingBooth[]
-  village      village
+  village      village[]
 }
 
 model village {
@@ -61,7 +62,7 @@ model village {
   name String
   author User @relation(fields:[authorId], references:[id])
   authorId Int
-  sector Sector? @relation(fields:[sectorId], references:[id], onDelete:Cascade)
+  sector Sector? @relation(fields:[sectorId], references:[id])
   sectorId Int?
 }
 

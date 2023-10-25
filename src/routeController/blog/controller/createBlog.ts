@@ -1,4 +1,4 @@
-import {  Response } from "express";
+import { Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { errorResponse } from "../../../utlis/responseError";
 import { responseSuccess } from "../../../utlis/responseSuccess";
@@ -7,15 +7,19 @@ import { Authenticate } from "src/interfaces/requestInterface";
 const prisma = new PrismaClient();
 
 export const createPost = async (req: Authenticate, res: Response) => {
-  const { title, content } = req.body;
+  console.log(req.body.title)
+  const title = req.body.title;
+  const content = req.body.content
 
   try {
     const post = await prisma.post.create({
       data: {
-        title,
-        content,
-        author:{connect:{id:req.userId}},
-        published:true
+        title:title,
+        content: content,
+        author: { connect: { id: req.userId } },
+        published: true,
+        image:
+          `https://shivam-practics-bucket.s3.ap-south-1.amazonaws.com/${req.uploadedFileName}`,
       },
     });
 

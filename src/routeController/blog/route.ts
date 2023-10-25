@@ -5,10 +5,11 @@ import { getAllPosts } from './controller/getBlogAll'
 import { getPostById } from './controller/getBlogById'
 import { deletePost } from './controller/deleteBlog'
 import { updatePost } from './controller/editBlog'
+import upload from '../../middleware/upload'
 
 const blogRouter = express.Router()
 
-blogRouter.post('/', verifyToken ,createPost)
+blogRouter.post('/', verifyToken ,upload.single('image'),createPost)
 blogRouter.get('/' , getAllPosts)
 blogRouter.get('/:id', getPostById)
 blogRouter.delete('/:id'  , verifyToken, deletePost)

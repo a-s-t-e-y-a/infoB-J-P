@@ -33,6 +33,7 @@ app.post(
   verifyToken,
   upload.single("image"),
   (req: Authenticate, res: Response) => {
+    console.log(req.uploadedFileName)
     responseSuccess(res, {
       data: {
         mes :'image uplaod done '

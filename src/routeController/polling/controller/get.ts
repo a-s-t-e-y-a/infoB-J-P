@@ -16,7 +16,6 @@ export async function getPoolingBoothById(req: Request, res: Response) {
           id: poolingBoothId,
         },
         include: {
-          // mundal: true,
           sector: true,
           karykarta: true,
         },
