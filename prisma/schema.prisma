@@ -23,8 +23,15 @@ model User {
   poolingBooth poolingBooth[]
   karykarta   karykarta[]
   village     village[]
+  gallery     gallery[]
 }
+model gallery {
+  id  Int @id @default(autoincrement())
+  name String
+   author    User       @relation(fields: [authorId], references: [id])
+  authorId  Int
 
+}
 model Post {
   id        Int        @id @default(autoincrement())
   title     String
@@ -95,7 +102,6 @@ model karykarta {
   author         User @relation(fields:[authorId], references:[id])
   authorId       Int
 }
-
 enum Role {
   karyakarta
   adhyaksha
