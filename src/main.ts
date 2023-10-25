@@ -4,18 +4,12 @@ import cookieParser from "cookie-parser";
 import cors from "cors"; // Import the cors middleware
 import { verifyToken } from "./middleware/auth";
 
-
 const port: number = process.env.PORT ? Number(process.env.PORT) : 5555;
 
 const app = express();
 
-const allowedOrigins = ["http://localhost:3000"];
+app.use(cors({ origin: '*' })); // Set the origin option to '*'
 
-const options: cors.CorsOptions = {
-  origin: '*',
-};
-
-app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
@@ -30,3 +24,4 @@ app.use("/api", mainRouter);
 app.listen(port, () => {
   console.log(`[ ready ] http://localhost:${port}`);
 });
+
