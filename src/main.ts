@@ -12,7 +12,7 @@ const app = express();
 const allowedOrigins = ["http://localhost:3000"];
 
 const options: cors.CorsOptions = {
-  origin: allowedOrigins,
+  origin: '*',
 };
 
 app.use(cors(options));
