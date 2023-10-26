@@ -25,6 +25,9 @@ export async function createKarykarta(req: Authenticate, res: Response) {
       mundalId,
       role,
     } = req.body as KarykartaInput;
+    if(mobileNumber.length!=10){
+      throw new CustomError('Mobile no is incorrect', 500,'BAD REQUEST')
+    }
     if (role) {
       const karyakartaRoleFind = await prisma.mundal.findUnique({
         where: {
