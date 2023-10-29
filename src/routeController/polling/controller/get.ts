@@ -3,7 +3,6 @@ import { PrismaClient } from '@prisma/client';
 import { responseSuccess } from '../../../utlis/responseSuccess';
 import { errorResponse } from '../../../utlis/responseError';
 import { CustomError } from '../../../utlis/throwError';
-import mundal from 'src/routeController/madal/route';
 
 const prisma = new PrismaClient();
 
@@ -43,12 +42,10 @@ export async function getAllPoolingBooths(req: Request, res: Response) {
   
       const filters: Record<string, any> = {}; // Define the types for sectorId and mundalId
   
-      // If sectorId is provided, filter by it
       if (sectorId) {
         filters.sectorId = parseInt(sectorId.toString());
       }
   
-      // If mundalId is provided, filter by it
       if (mundalId) {
         filters.mundalId = parseInt(mundalId.toString());
       }
