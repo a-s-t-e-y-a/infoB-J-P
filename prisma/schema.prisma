@@ -51,6 +51,8 @@ model Mundal {
   name       String
   karyakarta karykarta[] 
   Sector     Sector[]
+  village    village[]
+  poolingBooth  poolingBooth[]
 }
 model Sector {
   id           Int           @id @default(autoincrement())
@@ -60,7 +62,6 @@ model Sector {
   mundal       Mundal?       @relation(fields: [mundalId], references: [id], onDelete: Cascade)
   mundalId     Int?          
   karykarta    karykarta[]
-  poolingBooth poolingBooth[]
   village      village[]
 }
 
@@ -71,16 +72,21 @@ model village {
   authorId Int
   sector Sector? @relation(fields:[sectorId], references:[id])
   sectorId Int?
+  mundal       Mundal?       @relation(fields: [mundalId], references: [id], onDelete: Cascade)
+  mundalId     Int?
+  poolingBooth poolingBooth[]
 }
 
 model poolingBooth {
   id        Int         @id @default(autoincrement())
   name      String
-  sector    Sector?     @relation(fields: [sectorId], references: [id], onDelete: Cascade)
-  sectorId  Int?        
+  poolingBooth    village?     @relation(fields: [poolingBoothId], references: [id], onDelete: Cascade)
+  poolingBoothId  Int?        
   karykarta karykarta[]
   author    User @relation(fields:[authorId], references:[id])
   authorId Int
+  mundal       Mundal?       @relation(fields: [mundalId], references: [id], onDelete: Cascade)
+  mundalId     Int?
 }
 
 model karykarta {

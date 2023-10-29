@@ -1,16 +1,16 @@
-import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-import { responseSuccess } from '../../../utlis/responseSuccess';
-import { errorResponse } from '../../../utlis/responseError';
-import { PoolingBoothInput } from 'src/interfaces/pooling';
-import { CustomError } from '../../../utlis/throwError';
-import { Authenticate } from 'src/interfaces/requestInterface';
+import {  Response } from "express";
+import { PrismaClient } from "@prisma/client";
+import { responseSuccess } from "../../../utlis/responseSuccess";
+import { errorResponse } from "../../../utlis/responseError";
+import { PoolingBoothInput } from "src/interfaces/pooling";
+import { CustomError } from "../../../utlis/throwError";
+import { Authenticate } from "src/interfaces/requestInterface";
 
 const prisma = new PrismaClient();
 
-export async function createPoolingBooth(req:Authenticate, res: Response) {
+export async function createPoolingBooth(req: Authenticate, res: Response) {
   try {
-    const { name, sectorId, karykartadId } = req.body as PoolingBoothInput;
+    const { name, villageId, karykartadId } = req.body as PoolingBoothInput;
     const poolingBoothFind = await prisma.poolingBooth.findMany({
       where: {
         name: name,
@@ -18,9 +18,9 @@ export async function createPoolingBooth(req:Authenticate, res: Response) {
     });
     if (poolingBoothFind.length > 0) {
       throw new CustomError(
-        'Pooling booth already added to sector ',
+        "Pooling booth already added to sector ",
         500,
-        'Bad request'
+        "Bad request",
       );
     }
     const karyakartaFind = await prisma.karykarta.findUnique({
@@ -28,8 +28,16 @@ export async function createPoolingBooth(req:Authenticate, res: Response) {
         id: Number(karykartadId),
       },
     });
+    const mundal = await prisma.village.findUnique({
+      where: {
+        id: villageId,
+      },
+      include: {
+        mundal: true,
+      },
+    });
     if (karyakartaFind) {
-      if (karyakartaFind.role == 'karyakarta') {
+      if (karyakartaFind.role == "karyakarta") {
         const poolingBooth = await prisma.poolingBooth.create({
           data: {
             name,
@@ -39,9 +47,14 @@ export async function createPoolingBooth(req:Authenticate, res: Response) {
               },
             },
             sector: {
-              connect: { id: Number(sectorId) },
+              connect: { id: Number(villageId) },
             },
-            author:{connect:{id:req.userId}}
+            mundal: {
+              connect: {
+                id: Number(mundal.mundalId),
+              },
+            },
+            author: { connect: { id: req.userId } },
           },
         });
         await prisma.karykarta.update({
@@ -49,19 +62,19 @@ export async function createPoolingBooth(req:Authenticate, res: Response) {
             id: Number(karykartadId),
           },
           data: {
-            role: 'adhyakshaBooth',
+            role: "adhyakshaBooth",
           },
         });
         responseSuccess(res, {
           status: 201,
-          message: 'PoolingBooth created successfully',
+          message: "PoolingBooth created successfully",
           data: poolingBooth,
         });
       } else {
         throw new CustomError(
-          'This karykarta role is already defined ',
+          "This karykarta role is already defined ",
           404,
-          'Bad request'
+          "Bad request",
         );
       }
     } else {
@@ -71,12 +84,12 @@ export async function createPoolingBooth(req:Authenticate, res: Response) {
           sector: {
             connect: { id: Number(sectorId) },
           },
-          author:{connect:{id:req.userId}}
+          author: { connect: { id: req.userId } },
         },
       });
       responseSuccess(res, {
         status: 201,
-        message: 'PoolingBooth created successfully',
+        message: "PoolingBooth created successfully",
         data: poolingBooth,
       });
     }

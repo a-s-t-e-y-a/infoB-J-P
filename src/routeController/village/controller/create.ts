@@ -21,11 +21,17 @@ export async function createVillage (req : Authenticate , res: Response){
     if (village.length>0){
       throw new CustomError('Village with this name already exist', 500 , 'Bad request')
     }
+    const mundalId = await prisma.sector.findUnique({
+      where:{
+          id:Number(sectorId)
+      }
+    })
     const villageData  =  await prisma.village.create({
       data:{
         name, 
         sector:{connect:{id: Number(sectorId)}},
-        author:{connect:{id:req.userId}}
+        author:{connect:{id:req.userId}},
+        mundal:{connect:{id:mundalId.mundalId}}
       }
     })
     responseSuccess(res ,{
