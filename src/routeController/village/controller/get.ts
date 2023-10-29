@@ -10,6 +10,8 @@ const prisma = new PrismaClient();
 
 export async function getVillages(req: Authenticate, res: Response) {
   try {
+    const download = Boolean(req.query.download) as Boolean;
+    const type = req.query.type as string;
     const villages = await prisma.village.findMany({
       include:{sector:true}
     });
