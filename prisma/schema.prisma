@@ -80,8 +80,8 @@ model village {
 model poolingBooth {
   id        Int         @id @default(autoincrement())
   name      String
-  poolingBooth    village?     @relation(fields: [poolingBoothId], references: [id], onDelete: Cascade)
-  poolingBoothId  Int?        
+  village    village?     @relation(fields: [villageId], references: [id], onDelete: Cascade)
+  villageId  Int?        
   karykarta karykarta[]
   author    User @relation(fields:[authorId], references:[id])
   authorId Int

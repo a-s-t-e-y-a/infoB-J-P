@@ -16,7 +16,7 @@ export async function getSectorById(req: Request, res: Response) {
         include: {
           mundal: true,
           karykarta: true,
-          poolingBooth: true,
+          village: true,
         },
       });
   
@@ -50,7 +50,7 @@ export async function getSectorById(req: Request, res: Response) {
         where,
         include:{
           mundal:true,
-          poolingBooth:true,
+          village:true,
           karykarta:true
         }
       });

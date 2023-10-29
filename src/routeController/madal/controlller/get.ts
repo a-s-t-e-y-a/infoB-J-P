@@ -1,9 +1,14 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { errorResponse } from "../../../utlis/responseError";
-import { CustomError } from "../../../utlis/throwError";
 import { responseSuccess } from "../../../utlis/responseSuccess";
 import karykarta from "src/routeController/karyakarta/route";
+import { CustomError } from '../../../utlis/throwError';
+import { Workbook } from 'excel4node';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import fs from 'fs';
+
 
 const prisma = new PrismaClient();
 export async function getMundalById(req: Request, res: Response) {
@@ -70,7 +75,7 @@ export async function getAllMundals(req: Request, res: Response) {
         karyakarta: true,
         Sector: {
           include: {
-            poolingBooth: true,
+            village: true,
           },
         },
       },

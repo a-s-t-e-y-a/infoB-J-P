@@ -17,7 +17,7 @@ export async function deleteMundal(req: Request, res: Response) {
             karyakarta: true, // Include related Karyakarta
             Sector: {
               include: {
-                poolingBooth: true, // Include related poolingBooth
+                village: true, // Include related poolingBooth
               },
             },
           },

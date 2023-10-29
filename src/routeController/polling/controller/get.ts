@@ -15,7 +15,7 @@ export async function getPoolingBoothById(req: Request, res: Response) {
           id: poolingBoothId,
         },
         include: {
-          sector: true,
+          village: true,
           karykarta: true,
         },
       });
@@ -53,7 +53,7 @@ export async function getAllPoolingBooths(req: Request, res: Response) {
       const poolingBooths = await prisma.poolingBooth.findMany({
         where: filters,
         include:{
-          sector:true,
+          village:true,
           karykarta:true,
 
         }

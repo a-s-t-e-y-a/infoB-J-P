@@ -18,7 +18,7 @@ export async function editPoolingBooth(req: Request, res: Response) {
         data: updatedData,
         include: {
           // mundal: true,
-          sector: true,
+          village: true,
           karykarta: true,
         },
       });

@@ -17,9 +17,8 @@ export async function editSector(req: Request, res: Response) {
         data: updatedData,
         include: {
           mundal: true,
-          karykarta: true,
-          poolingBooth: true,
-        },
+          karykarta: true,  
+      },
       });
   
       responseSuccess(res, {

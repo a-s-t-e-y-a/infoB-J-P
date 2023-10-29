@@ -46,7 +46,7 @@ export async function createPoolingBooth(req: Authenticate, res: Response) {
                 id: Number(karykartadId),
               },
             },
-            sector: {
+            village: {
               connect: { id: Number(villageId) },
             },
             mundal: {
@@ -81,8 +81,8 @@ export async function createPoolingBooth(req: Authenticate, res: Response) {
       const poolingBooth = await prisma.poolingBooth.create({
         data: {
           name,
-          sector: {
-            connect: { id: Number(sectorId) },
+          village: {
+            connect: { id: Number(villageId) },
           },
           author: { connect: { id: req.userId } },
         },
