@@ -164,6 +164,10 @@ export async function getAllMundals(req: Request, res: Response) {
     const type = req.query.type as string;
     const mundals = await prisma.mundal.findMany({
       where: name ? { name } : undefined, // Use conditional object for filtering
+      include:{
+        karyakarta:true,
+        sector:true
+      }
     });
 
     if (Boolean(download) == true) {
