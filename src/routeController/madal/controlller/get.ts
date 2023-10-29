@@ -166,7 +166,7 @@ export async function getAllMundals(req: Request, res: Response) {
       where: name ? { name } : undefined, // Use conditional object for filtering
       include:{
         karyakarta:true,
-        sector:true
+        Sector:true
       }
     });
 
