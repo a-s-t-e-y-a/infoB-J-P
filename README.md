@@ -2,7 +2,7 @@
 Welcome to your project! This README provides information on how to get started and perform common tasks.
 ## notes 
 
-use only yarn for this
+use only pnpm for this
 ## Getting Started
 
 Follow these steps to get your project up and running:
