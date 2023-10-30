@@ -65,14 +65,14 @@ export async function getSectorById(req: Request, res: Response) {
           karykarta.karykarta.map((info) => {
             ws.cell(count, 1).number(karykarta.id).style(style);
             ws.cell(count, 2).string(karykarta.name).style(style);
-            ws.cell(count, 2).string(info.name).style(style);
-            ws.cell(count, 2).string(info.address).style(style);
-            ws.cell(count, 2).string(info.mobileNumber).style(style);
-            ws.cell(count, 2).string(info.dob).style(style);
-            ws.cell(count, 2).string(info.religion).style(style);
-            ws.cell(count, 2).string(info.gender).style(style);
-            ws.cell(count, 2).string(info.previousParty).style(style);
-            ws.cell(count, 2).string(info.role).style(style);
+            ws.cell(count, 3).string(info.name).style(style);
+            ws.cell(count, 4).string(info.address).style(style);
+            ws.cell(count, 5).string(info.mobileNumber).style(style);
+            ws.cell(count, 6).string(info.dob).style(style);
+            ws.cell(count, 7).string(info.religion).style(style);
+            ws.cell(count, 8).string(info.gender).style(style);
+            ws.cell(count, 9).string(info.previousParty).style(style);
+            ws.cell(count, 10).string(info.role).style(style);
           });
 
           count++;
