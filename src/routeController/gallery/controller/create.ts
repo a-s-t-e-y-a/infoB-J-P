@@ -10,6 +10,7 @@ const prisma = new PrismaClient();
 
 export async function postGallery (req: Authenticate, res: Response)  {
     try {
+    console.log(req.uploadedFileName)
       const data = await prisma.gallery.findMany({});
       if (data.length > 10) {
         throw new CustomError("Image exceed", 404, "BAD REQUETS");
@@ -28,6 +29,7 @@ export async function postGallery (req: Authenticate, res: Response)  {
         status: 200,
       });
     } catch (err) {
+    console.log(err)
       errorResponse(res, err);
     }
   }
