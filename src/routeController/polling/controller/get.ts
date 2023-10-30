@@ -38,12 +38,12 @@ export async function getPoolingBoothById(req: Request, res: Response) {
   // Get all PoolingBooths with optional filters for sectorId and mundalId
 export async function getAllPoolingBooths(req: Request, res: Response) {
     try {
-      const { sectorId, mundalId } = req.query;
+      const { villageId, mundalId } = req.query;
   
       const filters: Record<string, any> = {}; // Define the types for sectorId and mundalId
   
-      if (sectorId) {
-        filters.sectorId = parseInt(sectorId.toString());
+      if (villageId) {
+        filters.villageId = parseInt(villageId.toString());
       }
   
       if (mundalId) {
