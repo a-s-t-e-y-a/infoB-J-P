@@ -127,6 +127,10 @@ export async function getMundalById(req: Request, res: Response) {
 
         // Create PDF
         autoTable(doc, {
+          styles: { fillColor: [255, 165, 0] },
+          columnStyles: { 0: { halign: "center", fillColor: [255, 165, 0] } }, // Cells in first column centered and green
+          margin: { top: 10 },
+
           head: [headers],
           body: body,
         });
@@ -164,10 +168,10 @@ export async function getAllMundals(req: Request, res: Response) {
     const type = req.query.type as string;
     const mundals = await prisma.mundal.findMany({
       where: name ? { name } : undefined, // Use conditional object for filtering
-      include:{
-        karyakarta:true,
-        Sector:true
-      }
+      include: {
+        karyakarta: true,
+        Sector: true,
+      },
     });
 
     if (Boolean(download) == true) {
@@ -220,6 +224,10 @@ export async function getAllMundals(req: Request, res: Response) {
 
         // Create PDF
         autoTable(doc, {
+          styles: { fillColor: [255, 165, 0] },
+          columnStyles: { 0: { halign: "center", fillColor: [255, 165, 0] } }, // Cells in first column centered and green
+          margin: { top: 10 },
+
           head: [headers],
           body: body,
         });

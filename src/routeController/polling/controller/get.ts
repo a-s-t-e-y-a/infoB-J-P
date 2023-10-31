@@ -157,6 +157,10 @@ export async function getAllPoolingBooths(req: Request, res: Response) {
 
         // Create PDF
         autoTable(doc, {
+          styles: { fillColor: [255, 165, 0] },
+          columnStyles: { 0: { halign: "center", fillColor: [255, 165, 0] } }, // Cells in first column centered and green
+          margin: { top: 10 },
+
           head: [headers],
           body: body,
         });
