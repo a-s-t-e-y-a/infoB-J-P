@@ -7,7 +7,7 @@ export async function CountRole(role, karyakartaRoleFind) {
         count++;
       }
     });
-    if (count > 3) {
+    if (count > 6) {
       return true;
     } else {
       return false;
@@ -18,7 +18,7 @@ export async function CountRole(role, karyakartaRoleFind) {
         count++;
       }
     });
-    if (count > 1) {
+    if (count > 2) {
       return true;
     } else {
       return false;
@@ -29,7 +29,7 @@ export async function CountRole(role, karyakartaRoleFind) {
         count++;
       }
     });
-    if (count > 3) {
+    if (count > 6) {
       return true;
     } else {
       return false;
