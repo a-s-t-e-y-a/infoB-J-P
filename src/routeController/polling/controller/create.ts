@@ -30,7 +30,7 @@ export async function createPoolingBooth(req: Authenticate, res: Response) {
     });
     const mundal = await prisma.village.findUnique({
       where: {
-        id: villageId,
+        id: Number(villageId),
       },
       include: {
         mundal: true,
