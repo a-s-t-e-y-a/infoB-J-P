@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 });
 app.get("/checkToken", verifyToken);
 
-app.use("/api", mainRouter);
+app.use("/proxy/api", mainRouter);
 
 app.listen(port, () => {
   console.log(`[ ready ] http://localhost:${port}`);
