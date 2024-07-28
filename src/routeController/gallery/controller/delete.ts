@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 
 export async function deleteImage(req: Authenticate, res: Response) {
   try {
-    const imageId = parseInt(req.params.id);
+    const imageId = req.params.id;
 
     // Check if the image exists
     const image = await prisma.gallery.findUnique({

@@ -31,7 +31,7 @@ export async function createKarykarta(req: Authenticate, res: Response) {
     if (role) {
       const karyakartaRoleFind = await prisma.mundal.findUnique({
         where: {
-          id: parseInt(mundalId),
+          id: mundalId,
         },
         include: {
           karyakarta: true,

@@ -12,7 +12,7 @@ export const getPostById = async (req: Authenticate, res: Response) => {
 
   try {
     const post = await prisma.post.findUnique({
-      where: { id: Number(id), authorId: req.userId }
+      where: { id: id, authorId: req.userId }
     });
 
     if (post) {

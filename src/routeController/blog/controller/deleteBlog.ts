@@ -10,7 +10,7 @@ export const deletePost = async (req: Authenticate, res: Response) => {
 
   try {
     const data = await prisma.post.delete({
-      where: { id: Number(id), authorId: req.userId },
+      where: { id: id, authorId: req.userId },
     });
 
     responseSuccess(res, {

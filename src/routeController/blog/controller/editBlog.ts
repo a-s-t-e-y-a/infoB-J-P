@@ -12,7 +12,7 @@ export const updatePost = async (req: Authenticate, res: Response) => {
 
   try {
     const updatedPost = await prisma.post.update({
-      where: { id: Number(id), authorId: req.userId },
+      where: { id: id, authorId: req.userId },
       data: {
         title,
         content,

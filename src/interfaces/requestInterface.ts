@@ -1,6 +1,6 @@
 import { Request } from 'express';
 export interface Authenticate extends Request {
-    userId: number;
+    userId: string;
     sessionId: string
     uploadedFileName:string
   }
