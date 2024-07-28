@@ -6,108 +6,111 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id          Int    @id @default(autoincrement())
-  email       String @unique
-  name        String
-  phoneNumber String
-  dob         String
-  password    String
-  posts       Post[]
-  mundal      Mundal []
-  sector      Sector[]
-  poolingBooth poolingBooth[]
-  karykarta   karykarta[]
-  village     village[]
-  gallery     gallery[]
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  email         String         @unique
+  name          String
+  phoneNumber   String
+  dob           String
+  password      String
+  posts         Post[]
+  mundals       Mundal[]
+  sectors       Sector[]
+  poolingBooths PoolingBooth[]
+  karyakartas   Karyakarta[]
+  villages      Village[]
+  galleries     Gallery[]
 }
-model gallery {
-  id  Int @id @default(autoincrement())
-  name String
-   author    User       @relation(fields: [authorId], references: [id])
-  authorId  Int
 
+model Gallery {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String @db.ObjectId
 }
+
 model Post {
-  id        Int        @id @default(autoincrement())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
   content   String
   published Boolean
   image     String?
-  author    User       @relation(fields: [authorId], references: [id])
-  authorId  Int
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Mundal {
-  id         Int         @id @default(autoincrement())
-  author     User @relation(fields:[authorId], references:[id])
-  authorId   Int 
-  name       String
-  karyakarta karykarta[] 
-  Sector     Sector[]
-  village    village[]
-  poolingBooth  poolingBooth[]
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  author        User           @relation(fields: [authorId], references: [id])
+  authorId      String         @db.ObjectId
+  name          String
+  karyakartas   Karyakarta[]
+  sectors       Sector[]
+  villages      Village[]
+  poolingBooths PoolingBooth[]
 }
+
 model Sector {
-  id           Int           @id @default(autoincrement())
-  name         String
-  author       User    @relation(fields:[authorId], references:[id])
-  authorId     Int
-  mundal       Mundal?       @relation(fields: [mundalId], references: [id], onDelete: Cascade)
-  mundalId     Int?          
-  karykarta    karykarta[]
-  village      village[]
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  author      User         @relation(fields: [authorId], references: [id])
+  authorId    String       @db.ObjectId
+  mundal      Mundal?      @relation(fields: [mundalId], references: [id], onDelete: Cascade)
+  mundalId    String?      @db.ObjectId
+  karyakartas Karyakarta[]
+  villages    Village[]
 }
 
-model village {
-  id Int @id @default(autoincrement())
-  name String
-  author User @relation(fields:[authorId], references:[id])
-  authorId Int
-  sector Sector? @relation(fields:[sectorId], references:[id])
-  sectorId Int?
-  mundal       Mundal?       @relation(fields: [mundalId], references: [id], onDelete: Cascade)
-  mundalId     Int?
-  poolingBooth poolingBooth[]
+model Village {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  author        User           @relation(fields: [authorId], references: [id])
+  authorId      String         @db.ObjectId
+  sector        Sector?        @relation(fields: [sectorId], references: [id])
+  sectorId      String?        @db.ObjectId
+  mundal        Mundal?        @relation(fields: [mundalId], references: [id], onDelete: Cascade)
+  mundalId      String?        @db.ObjectId
+  poolingBooths PoolingBooth[]
 }
 
-model poolingBooth {
-  id        Int         @id @default(autoincrement())
-  name      String
-  village    village?     @relation(fields: [villageId], references: [id], onDelete: Cascade)
-  villageId  Int?        
-  karykarta karykarta[]
-  author    User @relation(fields:[authorId], references:[id])
-  authorId Int
-  mundal       Mundal?       @relation(fields: [mundalId], references: [id], onDelete: Cascade)
-  mundalId     Int?
+model PoolingBooth {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  village     Village?     @relation(fields: [villageId], references: [id], onDelete: Cascade)
+  villageId   String?      @db.ObjectId
+  karyakartas Karyakarta[]
+  author      User         @relation(fields: [authorId], references: [id])
+  authorId    String       @db.ObjectId
+  mundal      Mundal?      @relation(fields: [mundalId], references: [id], onDelete: Cascade)
+  mundalId    String?      @db.ObjectId
 }
 
-model karykarta {
-  id             Int           @id @default(autoincrement())
-  name           String
-  address        String
-  mobileNumber   String
-  dob            String
-  religion       String
-  gender         String
-  previousParty  String?       @default("None")
-  mundal         Mundal?       @relation(fields: [mundalId], references: [id], onDelete: Cascade)
-  mundalId       Int?
-  sector         Sector?       @relation(fields: [sectorId], references: [id])
-  sectorId       Int?
-  poolingBooth   poolingBooth? @relation(fields: [poolingBoothid], references: [id])
-  poolingBoothid Int?
-  role           Role          @default(karyakarta)
-  author         User @relation(fields:[authorId], references:[id])
-  authorId       Int
+model Karyakarta {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  address         String
+  mobileNumber    String
+  dob             String
+  religion        String
+  gender          String
+  previousParty   String?       @default("None")
+  mundal          Mundal?       @relation(fields: [mundalId], references: [id], onDelete: Cascade)
+  mundalId        String?       @db.ObjectId
+  sector          Sector?       @relation(fields: [sectorId], references: [id])
+  sectorId        String?       @db.ObjectId
+  poolingBooth    PoolingBooth? @relation(fields: [poolingBoothId], references: [id])
+  poolingBoothId  String?       @db.ObjectId
+  role            Role          @default(karyakarta)
+  author          User          @relation(fields: [authorId], references: [id])
+  authorId        String        @db.ObjectId
 }
+
 enum Role {
   karyakarta
   adhyaksha
@@ -119,4 +122,3 @@ enum Role {
   shaktikendraSanyojak
   shaktikendraprabhari
 }
-
